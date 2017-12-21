@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>O Til no JavaScript </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Incompreendido, o operador til (~) é um mistério que ninguém discute. Primeiro, pois é um operador bitwise, e, segundo, pois seus casos de uso são bas...">
+  <meta property="og:description" content="Incompreendido, o operador til (~) é um mistério que ninguém discute. Primeiro, pois é um operador bitwise, e, segundo, pois seus casos de uso são bas...">
+  <meta itemprop="description" content="Incompreendido, o operador til (~) é um mistério que ninguém discute. Primeiro, pois é um operador bitwise, e, segundo, pois seus casos de uso são bas...">
+  <meta name="twitter:description" content="Incompreendido, o operador til (~) é um mistério que ninguém discute. Primeiro, pois é um operador bitwise, e, segundo, pois seus casos de uso são bas...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-o-til-no-javascript" class="article">
+  <header class="header">
+    <a href="/blog/o-til-no-javascript/">
+      <time
+        class="article-date"
+        datetime="2015-11-01T01:48:29.000Z
+      ">
+        October 31, 2015
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      O Til no JavaScript
+    </h1>
+  </header>
+
+  <div class="summary">
+<p>Incompreendido, o operador til (<code>~</code>) é um mistério que ninguém discute. Primeiro, pois é um operador bitwise, e, segundo, pois seus casos de uso são bastante misteriosos…</p>
+</div>
+<h2 id="voce-consegue-dizer">Você consegue dizer… <a class="title-anchor" href="#voce-consegue-dizer" aria-hidden="true">¶</a></h2>
+<p>em <strong>valor</strong> e <strong>tipo de dado</strong>, o que será impresso no console nas situações abaixo?</p>
+<pre><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token operator">~</span><span class="token string">"1"</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token punctuation">(</span><span class="token number">8.2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token boolean">false</span><span class="token punctuation">)</span> 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token operator">~</span><span class="token string">"5.9"</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token operator">~</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token operator">~</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">5.5</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token string">"Tudo bem?"</span><span class="token punctuation">)</span>   
+</code></pre>
+<p>Não sabe? <em>Well…</em></p>
+<h2 id="o-operador-til">O operador til <a class="title-anchor" href="#o-operador-til" aria-hidden="true">¶</a></h2>
+<p>Ou melhor, o operador <em>bitwise NOT</em>.</p>
+<p>É importante falar isso pois é importante entender o que <em>bitwise</em> significa. Operadores bitwise são especiais em JavaScript: eles tratam todos seus operandos como uma sequência de 32 bits (0 e 1) – ou seja, trabalham com <strong>representações binárias</strong> (não decimais, como de praxe) de nossos operandos, e nos entregam valores númericos como se nada tivesse acontecido.</p>
+<p>O <em>NOT</em> significa que todos os bits do operando serão invertidos (0 vira 1, 1 vira 0). Parece inútil quando não estamos trabalhando com números binários, mas as aplicações criativas tornam o operador mais interessante.</p>
+<h3 id="regras-do">Regras do <code>~</code> <a class="title-anchor" href="#regras-do" aria-hidden="true">¶</a></h3>
+<ol>
+<li>Quando a expressão é <code>null</code> ou <code>undefined</code>… 0.</li>
+<li>Objetos são convertidos para strings.</li>
+<li>Strings são convertidas para números, se possível. Quando não é possível… 0.</li>
+<li>Valores booleanos são tratados como números (0 para <code>false</code>, 1 para <code>true</code>).</li>
+<li><em>Floating-points</em> são convertidos excluindo a parte fracionada.</li>
+<li>Todo número inteiro <em>n</em> é convertido para -(n + 1).</li>
+</ol>
+<p>As duas últimas regras são as mais importantes, pois elas implicam nas principais aplicações do operador. Já temos a resposta de alguns:</p>
+<pre><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token punctuation">(</span><span class="token number">8.2</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => -9</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token boolean">false</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => -1</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token string">"Tudo bem?"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => -1</span>
+</code></pre>
+<div class="note">
+<p>Os números foram convertidos de acordo com a fórmula -(n + 1). -9 é resultado de - 8 - 1, por exemplo.</p>
+</div>
+<h3 id="dupla-negacao">Dupla negação <a class="title-anchor" href="#dupla-negacao" aria-hidden="true">¶</a></h3>
+<p>Podemos usar dois operadores til (<em>double bitwise NOT</em>). Aqui, basta entender o trabalho do outro til: reinverter os bits.</p>
+<p>Considerando <code>~n</code>, como anteriormente, temos -(n + 1) = <strong>- n - 1</strong>. Considerando <code>~~n</code>, temos -[-(n + 1)] = <strong>n + 1</strong>.</p>
+<p>Perceba que as equações, quando somadas, se anulam. Pois essa é a grande sacada de usar dois operadores til! Temos, então:</p>
+<pre><code class="language-js">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token operator">~</span><span class="token string">"1"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 1</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token operator">~</span><span class="token string">"5.9"</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 5</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token operator">~</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 0</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token operator">~</span><span class="token operator">~</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">5.5</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => -5</span>
+</code></pre>
+<h2 id="aplicacoes">Aplicações <a class="title-anchor" href="#aplicacoes" aria-hidden="true">¶</a></h2>
+<h3 id="truncar-numeros">Truncar números <a class="title-anchor" href="#truncar-numeros" aria-hidden="true">¶</a></h3>
+<p>Pelo fato do operador converter removendo a parte fracionada, utilizá-lo para truncar números de forma fácil é a aplicação mais comum:</p>
+<pre><code class="language-js"><span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token number">7.8926152</span>
+<span class="token keyword">const</span> integer <span class="token operator">=</span> <span class="token operator">~</span><span class="token operator">~</span>data
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 7</span>
+</code></pre>
+<div class="note">
+<p>Embora o <code>~~</code> tenha sido, por muito tempo, usado no lugar de <code>Math.floor()</code>, o método mais parecido com ele que temos em JavaScript hoje é o <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/trunc"><code>Math.trunc()</code></a> do ES2015.</p>
+</div>
+<h3 id="converter-string-para-numero">Converter string para número <a class="title-anchor" href="#converter-string-para-numero" aria-hidden="true">¶</a></h3>
+<p>Uma aplicação simples que se baseia em uma das regras de funcionamento do til: converter strings para números sempre que possível; afinal, é com números que o operador trabalha.</p>
+<pre><code class="language-js"><span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token string">"2"</span>
+<span class="token keyword">const</span> dataAsNumber <span class="token operator">=</span> <span class="token operator">~</span><span class="token operator">~</span>data
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>dataAsNumber<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 2</span>
+</code></pre>
+<h3 id="verificar-a-existencia-de-um-item-no-array">Verificar a existência de um item no array <a class="title-anchor" href="#verificar-a-existencia-de-um-item-no-array" aria-hidden="true">¶</a></h3>
+<pre><code class="language-js"><span class="token keyword">let</span> women <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Ada Lovelace'</span><span class="token punctuation">,</span> <span class="token string">'Joan of Arc'</span><span class="token punctuation">,</span> <span class="token string">'Marie Curie'</span><span class="token punctuation">]</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">~</span>women<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'Ada Lovelace'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Ada Lovelace was such an important woman!'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>É difícil de compreender humanamente que o <code>if</code> está verificando se Ada Lovelace está incluída no array <code>women</code>, mas é exatamente isso que está acontecendo. Você entendeu a razão pela qual isso funciona?</p>
+<div class="note">
+<p>Poderíamos verificar sem o <code>~</code>, mas não funcionaria em casos em que o item do array é o primeiro (índice zero, e 0 retorna <code>false</code> como booleano). O operador til viabiliza essa verificação, em razão da conversão de um número inteiro <em>n</em> para -(n + 1).</p>
+</div>
+<p>O equivalente humano, utilizando <a href="https://lodash.com/">Lodash</a> (<code>_</code>), seria:</p>
+<pre><code class="language-js"><span class="token keyword">let</span> women <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'Ada Lovelace'</span><span class="token punctuation">,</span> <span class="token string">'Joan of Arc'</span><span class="token punctuation">,</span> <span class="token string">'Marie Curie'</span><span class="token punctuation">]</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">_</span><span class="token punctuation">(</span>women<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">'Ada Lovelace'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Ada Lovelace was such an important woman!'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="performance">Performance <a class="title-anchor" href="#performance" aria-hidden="true">¶</a></h2>
+<p>Usar <code>~~</code> em vez de <code>Math.floor</code> ou <code>Math.trunc</code> é geralmente mais rápido. Dependendo da <em>JavaScript engine</em> do navegador e do caso de uso, no entanto, pode não fazer muita diferença e até ser mais lento. Veja o <a href="http://jsperf.com/tilde-vs-floor">teste no JSPerf</a>.</p>
+<p>De qualquer forma, a péssima performance de quem lê um código com o desumano <code>~</code> pode não valer o ganho de performance – que é ignorável de tão mínimo – em uma aplicação.</p>
+<h2 id="consideracoes">Considerações <a class="title-anchor" href="#consideracoes" aria-hidden="true">¶</a></h2>
+<p>No geral, operadores bitwise, principalmente <code>~</code>, <code>|</code> e <code>&amp;</code>, possuem aplicações interessantes e bastante criativas.</p>
+<p>Quanto ao <code>~~</code>, não acredito que chegará a se popularizar como aconteceu com o <code>!!</code>, que converte para um valor booleano. Em anos, a prática com til nunca se tornou realmente popular, talvez pelo fato de ser um operador bitwise – e, portanto, pouco compreendido – e ter casos de uso bastante excêntricos.</p>
+<p>Ficam à título de curiosidade suas aplicações bastante criativas. 😉</p>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/javascript/">javascript</a>, <a class="tag-link" href="/blog/tags/pt-br/">pt-BR</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/o-que-ha-de-errado-com-a-cultura-jquery/">
+        
+          O Que Há de Errado com a &quot;Cultura jQuery&quot;
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/ninguem-sabe-pouco-o-suficiente/">
+        
+          Ninguém Sabe Pouco o Suficiente
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/o-til-no-javascript/';
+    this.page.identifier = '/blog/o-til-no-javascript/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

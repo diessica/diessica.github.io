@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>A Minimal Workspace on macOS </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Ask me for a screenshot of my desktop and all you get is a wallpaper – if I’m using any. Everything else is hidden, unless actually requested by me.
+T...">
+  <meta property="og:description" content="Ask me for a screenshot of my desktop and all you get is a wallpaper – if I’m using any. Everything else is hidden, unless actually requested by me.
+T...">
+  <meta itemprop="description" content="Ask me for a screenshot of my desktop and all you get is a wallpaper – if I’m using any. Everything else is hidden, unless actually requested by me.
+T...">
+  <meta name="twitter:description" content="Ask me for a screenshot of my desktop and all you get is a wallpaper – if I’m using any. Everything else is hidden, unless actually requested by me.
+T...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-a-minimal-workspace-on-macos" class="article">
+  <header class="header">
+    <a href="/blog/a-minimal-workspace-on-macos/">
+      <time
+        class="article-date"
+        datetime="2017-05-04T22:45:57.000Z
+      ">
+        May 04, 2017
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      A Minimal Workspace on macOS
+    </h1>
+  </header>
+
+  <p>Ask me for a screenshot of my desktop and all you get is a wallpaper – if I’m using any. Everything else is hidden, unless actually requested by me.</p>
+<p>That’s the way I work on macOS. The minimal way.</p>
+<figure><video class="aligncenter" style="padding: 0; width: 100%;" autoplay="autoplay" loop="loop"><source type="video/mp4" src="../../media/2017/macos_desktop.mp4"></video>
+<figcaption>My macOS desktop. This + Spotlight = life. 😎</figcaption></figure>
+<p>In my workspace, there are no desktop items, app icons, time clock, battery percentage, transition delays, distracting animations, dashboards or context menus.</p>
+<p>Too much information makes it easy for me to get stimulated and then distracted. So I like it minimal.</p>
+<h2 id="recipe-for-the-minimal">Recipe for the minimal 👌 <a class="title-anchor" href="#recipe-for-the-minimal" aria-hidden="true">¶</a></h2>
+<p><strong>Get rid of everything you can</strong>. Hide. Disable. Assume everything is useless, not useful. <em>(I actually use this approach for life.)</em></p>
+<p>You’ll get frustrated sometimes, because there are simple things you want so bad to get rid of but then found out it’s impossible unless you hack things. SRLSY GOTTA LOVE APPLE 😍😍😍</p>
+<p>Well, let’s begin! Follow the steps below and type the commands in a <strong>terminal</strong>. If you’re not familiar with a terminal, I’m pretty sure it’s possible to find those settings in “System Preferences” as well.</p>
+<p><em>(…But I highly recommend you to open a terminal and start typing around because SRSLY USING A TERMINAL IS LIKE KNOWLEDGE AND POWER 4 UR ENTIRE LIFE!!!)</em></p>
+<h3 id="hide-your-desktop">Hide your desktop <a class="title-anchor" href="#hide-your-desktop" aria-hidden="true">¶</a></h3>
+<p>It’s easier to live without than to live with it. Disable it and it won’t be something you have to clean up anymore!</p>
+<pre><code class="language-bash">defaults <span class="token function">write</span> com.apple.finder CreateDesktop -bool <span class="token boolean">false</span>
+</code></pre>
+<h3 id="hide-your-dock">Hide your dock <a class="title-anchor" href="#hide-your-dock" aria-hidden="true">¶</a></h3>
+<p>It’ll be only shown when you hover it.</p>
+<pre><code class="language-bash">defaults <span class="token function">write</span> com.apple.dock autohide -bool <span class="token boolean">true</span>
+</code></pre>
+<p>Other cool things you can do too to keep your dock clean are:</p>
+<pre><code class="language-bash"><span class="token comment" spellcheck="true"># Minimize windows into their application's icon</span>
+defaults <span class="token function">write</span> com.apple.dock minimize-to-application -bool <span class="token boolean">true</span>
+
+<span class="token comment" spellcheck="true"># Wipe all (default) app icons from the Dock</span>
+defaults <span class="token function">write</span> com.apple.dock persistent-apps -array
+</code></pre>
+<p>Because I initialise apps from Spotlight, I really don’t mind not having any app in my dock. Sometimes I ask myself why do I have a dock at all. 🤔</p>
+<p>And… Launchpad. WHY??? 😭</p>
+<h3 id="hide-your-menu-bar">Hide your menu bar <a class="title-anchor" href="#hide-your-menu-bar" aria-hidden="true">¶</a></h3>
+<p>It’ll be only shown when you hover it.</p>
+<pre><code class="language-bash">defaults <span class="token function">write</span> NSGlobalDomain _HIHideMenuBar -bool <span class="token boolean">true</span>
+</code></pre>
+<p class="note">I really like this one, but if you feel it's too radical for you, try hiding only menu bar icons with <a href="(http://matthewpalmer.net/vanilla/">Vanilla</a> (recommended) or <a href="https://www.macbartender.com">Bartender</a>.</p>
+<h3 id="disable-dashboard">Disable dashboard <a class="title-anchor" href="#disable-dashboard" aria-hidden="true">¶</a></h3>
+<p>Why does it even exist? 😒</p>
+<pre><code class="language-bash"><span class="token comment" spellcheck="true"># Disable Dashboard</span>
+defaults <span class="token function">write</span> com.apple.dashboard mcx-disabled -bool <span class="token boolean">true</span>
+
+<span class="token comment" spellcheck="true"># Don't show Dashboard as a Space</span>
+defaults <span class="token function">write</span> com.apple.dock dashboard-in-overlay -bool <span class="token boolean">true</span>
+</code></pre>
+<h3 id="disable-andor-speed-up-animations">Disable and/or speed up animations <a class="title-anchor" href="#disable-andor-speed-up-animations" aria-hidden="true">¶</a></h3>
+<p>Saving some time because I don’t think those really add anything to my user experience on macOS.</p>
+<pre><code class="language-bash"><span class="token comment" spellcheck="true"># Disable window animations and Get Info animations</span>
+defaults <span class="token function">write</span> com.apple.finder DisableAllAnimations -bool <span class="token boolean">true</span>
+
+<span class="token comment" spellcheck="true"># Remove the auto-hiding Dock delay</span>
+defaults <span class="token function">write</span> com.apple.dock autohide-delay -float 0
+
+<span class="token comment" spellcheck="true"># Remove the animation when hiding/showing the Dock</span>
+defaults <span class="token function">write</span> com.apple.dock autohide-time-modifier -float 0
+
+<span class="token comment" spellcheck="true"># Don't animate opening applications from the Dock</span>
+defaults <span class="token function">write</span> com.apple.dock launchanim -bool <span class="token boolean">false</span>
+
+<span class="token comment" spellcheck="true"># Speed up Mission Control animations</span>
+defaults <span class="token function">write</span> com.apple.dock expose-animation-duration -float 0.1
+</code></pre>
+<p>Finally, restart system stuff:</p>
+<pre><code class="language-bash"><span class="token function">killall</span> Finder<span class="token punctuation">;</span> <span class="token function">killall</span> Dock<span class="token punctuation">;</span> <span class="token function">killall</span> SystemUIServer
+</code></pre>
+<p>And that’s it! 🎉 Life-changing commands for sure. Now just don’t forget cleaning your actual desk too.</p>
+<p>For more on the way I work, <a href="http://github.com/diessica/dotfiles">my dotfiles</a> are worth-checking!</p>
+<p class="note">Sorry for using too many emojis. Just shipped this feature here on my blog and I can't help myself! 😬</p>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/productivity/">productivity</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/i-travelled-to-photographs/">
+        
+          I Travelled to Photographs
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/where-does-growing-up-go-wrong/">
+        
+          Where Does Growing up Go Wrong?
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+
+  </div>
+</main>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

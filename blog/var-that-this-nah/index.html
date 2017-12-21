@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>var that = this? Nah. </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Tried JavaScript for some minutes? You probably already wrote the following.
+var that = this
+
+(Or one of its variants, such as var self = this.)
+That’...">
+  <meta property="og:description" content="Tried JavaScript for some minutes? You probably already wrote the following.
+var that = this
+
+(Or one of its variants, such as var self = this.)
+That’...">
+  <meta itemprop="description" content="Tried JavaScript for some minutes? You probably already wrote the following.
+var that = this
+
+(Or one of its variants, such as var self = this.)
+That’...">
+  <meta name="twitter:description" content="Tried JavaScript for some minutes? You probably already wrote the following.
+var that = this
+
+(Or one of its variants, such as var self = this.)
+That’...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-var-that-this-nah" class="article">
+  <header class="header">
+    <a href="/blog/var-that-this-nah/">
+      <time
+        class="article-date"
+        datetime="2017-03-15T12:00:00.000Z
+      ">
+        March 15, 2017
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      var that = this? Nah.
+    </h1>
+  </header>
+
+  <p>Tried JavaScript for some minutes? You probably already wrote the following.</p>
+<pre><code class="language-js"><span class="token keyword">var</span> that <span class="token operator">=</span> <span class="token keyword">this</span>
+</code></pre>
+<p>(Or one of its variants, such as <code>var self = this</code>.)</p>
+<p>That’s a pretty common pattern when you found yourself in a situation where:</p>
+<ol>
+<li>you have a function nested inside of an object’s method, and</li>
+<li>you want to access the object’s properties, but</li>
+<li>JavaScript’s <code>this</code> is bound in an unexpected way.</li>
+</ol>
+<hr>
+<p>Workarounding unexpected callback scope is one of the main situations where developers write <code>var self = this</code>.</p>
+<p>Let’s assume a piece of code with a callback function.</p>
+<pre><code class="language-js"><span class="token keyword">function</span> <span class="token function">Requester</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> req<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>data <span class="token operator">=</span> data
+
+  req<span class="token punctuation">.</span><span class="token function">done</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// undefined</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>You’d expect <code>this.data</code> to be the <code>data</code> argument. Yet, JavaScript tells you that it is actually <code>undefined</code>.</p>
+<p>So, because Stack Overflow says so, you do the following:</p>
+<pre><code class="language-js"><span class="token keyword">function</span> <span class="token function">Requester</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> req<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>data <span class="token operator">=</span> data
+  <span class="token keyword">var</span> self <span class="token operator">=</span> <span class="token keyword">this</span> <span class="token comment" spellcheck="true">// NOOOOOoOooo</span>
+
+  req<span class="token punctuation">.</span><span class="token function">done</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>And never stops doing it in your life.</p>
+<p>Still do it? I’m flattered to tell you that <strong>you don’t need that extra variable anymore</strong>.</p>
+<h2 id="arrow-functions">Arrow functions <a class="title-anchor" href="#arrow-functions" aria-hidden="true">¶</a></h2>
+<p>Go with <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">arrow functions</a> instead. Besides having a shorter syntax, arrow functions bind to the parent scope by default.</p>
+<p>The scope that was firstly intuitive to you will work as expected now.</p>
+<pre><code class="language-js"><span class="token keyword">function</span> <span class="token function">Requester</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> req<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>data <span class="token operator">=</span> data
+
+  req<span class="token punctuation">.</span><span class="token function">done</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// intuitive as hell!</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p class="note">You can count on them most of the time, but they also have unexpected behaviour in more advanced cases. After all, you're dealing with the `this` keyword. So don't just go around refactoring all anonymous functions into arrow ones and expecting everything to work.</p>
+<h2 id="you-may-also-bind">You may also <code>.bind()</code>! <a class="title-anchor" href="#you-may-also-bind" aria-hidden="true">¶</a></h2>
+<p>If for some reason (such as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#Browser_compatibility">no support for IE</a>) you can’t use them, check JavaScript’s <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind"><code>bind</code></a>. It’s not as awesome as arrow functions, but does the job.</p>
+<pre><code class="language-js"><span class="token keyword">function</span> <span class="token function">Requester</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> req<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>data <span class="token operator">=</span> data
+
+  req<span class="token punctuation">.</span><span class="token function">done</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/javascript/">javascript</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/shared-variables-between-javascript-and-css/">
+        
+          Shared Variables Between JavaScript and CSS
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/dont-blame-it-on-react-or-redux/">
+        
+          Don&#39;t Blame it on React or Redux
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/var-that-this-nah/';
+    this.page.identifier = '/blog/var-that-this-nah/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

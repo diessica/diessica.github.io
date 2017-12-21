@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>How to Exclude CSS, Images, Anything from Unit Tests </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Your app needs all those require, but your unit tests may not.
+
+When developing web applications, we deal with assets that our JavaScript tests don’t ...">
+  <meta property="og:description" content="Your app needs all those require, but your unit tests may not.
+
+When developing web applications, we deal with assets that our JavaScript tests don’t ...">
+  <meta itemprop="description" content="Your app needs all those require, but your unit tests may not.
+
+When developing web applications, we deal with assets that our JavaScript tests don’t ...">
+  <meta name="twitter:description" content="Your app needs all those require, but your unit tests may not.
+
+When developing web applications, we deal with assets that our JavaScript tests don’t ...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-how-to-exclude-css-images-anything-from-unit-tests" class="article">
+  <header class="header">
+    <a href="/blog/how-to-exclude-css-images-anything-from-unit-tests/">
+      <time
+        class="article-date"
+        datetime="2016-11-19T11:54:29.000Z
+      ">
+        November 19, 2016
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      How to Exclude CSS, Images, Anything from Unit Tests
+    </h1>
+  </header>
+
+  <div class="summary">
+<p>Your app needs all those <code>require</code>, but your unit tests may not.</p>
+</div>
+<p>When developing web applications, we deal with assets that our JavaScript tests don’t have to be aware of.</p>
+<p>If using Webpack, which enables different imports in your JavaScript files, you’ve configured <a href="https://webpack.github.io/docs/loaders.html">loaders</a> that your test runner probably know nothing about. Therefore, that SVG image in your React component and the <code>import</code>ed CSS will both be parsed like JavaScript in your tests. A lot of confusing errors will be thrown, of course.</p>
+<p>So let’s learn to exclude anything your unit tests, from styles (CSS, Sass), images (PNG, SVG), to other specific imports (like <a href="https://diessi.ca/blog/svg-images-as-react-components-with-webpack/">SVG images as React components</a>).</p>
+<h2 id="hook-your-require-calls">Hook your <code>require()</code> calls <a class="title-anchor" href="#hook-your-require-calls" aria-hidden="true">¶</a></h2>
+<p>By intercepting <code>require()</code> calls, you can make your testing framework ignore <strong>what you want</strong> to be ignored <strong>the way you want</strong> it to be ignored.</p>
+<p>It’s also useful in isomorphic setups.</p>
+<h3 id="return-an-empty-module">Return an empty module <a class="title-anchor" href="#return-an-empty-module" aria-hidden="true">¶</a></h3>
+<p>It all comes to returning an empty module for unwanted imports. It looks like this:</p>
+<pre><code class="language-js">module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token string">''</span>
+</code></pre>
+<h3 id="jest">Jest <a class="title-anchor" href="#jest" aria-hidden="true">¶</a></h3>
+<p>For Jest, configure <a href="https://facebook.github.io/jest/docs/configuration.html#modulenamemapper-object-string-string">moduleNameMapper</a> to return the empty module for specific extensions. Example:</p>
+<pre><code class="language-json"><span class="token property">"jest"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"moduleNameMapper"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    "\\.(css|jpg|png<span class="token punctuation">)</span>$"<span class="token operator">:</span> <span class="token string">"&lt;rootDir>/empty-module.js"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="other-testing-frameworks">Other testing frameworks <a class="title-anchor" href="#other-testing-frameworks" aria-hidden="true">¶</a></h3>
+<p><a href="https://www.npmjs.com/package/require-hacker">require-hacker</a> is an option for hooking <code>require()</code> calls.</p>
+<div class="note">
+<p>You can also use built-in compilers (like moduleNameMapper in Jest or <a href="https://mochajs.org/#compilers">Mocha compilers</a>), or even only import <a href="https://github.com/bkonkle/ignore-styles">ignore-styles</a> into your testing framework (which is preconfigured).</p>
+</div>
+<p>I’ll stick to require-hacker and custom configuration because there’s more flexibility.</p>
+<p>Get it from npm:</p>
+<pre><code class="language-sh">npm install require-hacker --save-dev
+</code></pre>
+<h4 id="configure">Configure <a class="title-anchor" href="#configure" aria-hidden="true">¶</a></h4>
+<p>Create a JavaScript file and set custom handlers for specific extensions using require-hacker’s <a href="https://github.com/halt-hammerzeit/require-hacker#hookfile_extension-resolve">hook()</a> method.</p>
+<p>Assuming you want to ignore CSS and PNG files, always return an empty module for them:</p>
+<pre><code class="language-js"><span class="token keyword">import</span> requireHacker <span class="token keyword">from</span> <span class="token string">'require-hacker'</span>
+requireHacker<span class="token punctuation">.</span><span class="token function">hook</span><span class="token punctuation">(</span><span class="token string">'png'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">'module.exports = ""'</span><span class="token punctuation">)</span>
+requireHacker<span class="token punctuation">.</span><span class="token function">hook</span><span class="token punctuation">(</span><span class="token string">'css'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token string">'module.exports = ""'</span><span class="token punctuation">)</span>
+</code></pre>
+<div class="note">
+<p>Because you’re smart, you’ll store all extensions in a variable and <code>forEach</code> them, so there’s no need to repeat yourself. <a href="https://gist.github.com/diessica/e6a6ea601d2b19cdcc6881197b6b5c8d">Example</a>.</p>
+</div>
+<h4 id="import-into-your-test-runner">Import into your test runner <a class="title-anchor" href="#import-into-your-test-runner" aria-hidden="true">¶</a></h4>
+<p>Let your favourite testing framework know about the <code>require</code> hacking! Some examples, assuming a <code>ignore-utils.js</code> file:</p>
+<h5 id="mocha">Mocha <a class="title-anchor" href="#mocha" aria-hidden="true">¶</a></h5>
+<p>Add to your <a href="https://mochajs.org/#mochaopts">mocha.opts</a>, or use the <code>--require</code> flag:</p>
+<pre><code class="language-sh">mocha --require ./ignore-utils
+</code></pre>
+<h5 id="ava">ava <a class="title-anchor" href="#ava" aria-hidden="true">¶</a></h5>
+<p>Add to your <code>package.json</code>:</p>
+<pre><code class="language-json"><span class="token property">"ava"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+  <span class="token property">"require"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"./ignore-utils"</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now some files will be treated like shit in your JavaScript tests – which is AWESOME!</p>
+<h2 id="bonus-react-null-component">Bonus: React null component <a class="title-anchor" href="#bonus-react-null-component" aria-hidden="true">¶</a></h2>
+<p>You don’t need to load that boring SVG icon of a house to test that critical feature in a React component, right?</p>
+<p><em>Right.</em> In case you’re using <a href="https://github.com/sairion/svg-inline-loader">svg-inline-loader</a>, which transform your SVG files into React components, you cannot just return an empty module because your test case would be actually expecting a React component. Things will break. Annoying errors will be shown.</p>
+<p>So, instead of returning an empty module for SVG files, return an empty React component. Let’s set a custom handler for that!</p>
+<h3 id="configure-2">Configure <a class="title-anchor" href="#configure-2" aria-hidden="true">¶</a></h3>
+<div class="note">
+<p>This example uses require-hacker. For Jest, export a React null component and set it in <code>moduleNameMapper</code>.</p>
+</div>
+<pre><code class="language-js"><span class="token keyword">import</span> requireHacker <span class="token keyword">from</span> <span class="token string">'require-hacker'</span>
+
+<span class="token keyword">const</span> reactNullComponent <span class="token operator">=</span> <span class="token template-string"><span class="token string">`
+  require('react').createClass({
+    render() {
+      return null;
+    }
+  })
+`</span></span>
+requireHacker<span class="token punctuation">.</span><span class="token function">hook</span><span class="token punctuation">(</span><span class="token string">'svg'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token template-string"><span class="token string">`module.exports = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>reactNullComponent<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="conclusion">Conclusion <a class="title-anchor" href="#conclusion" aria-hidden="true">¶</a></h2>
+<p>I’ve spent a lot of time figuring out how to make everything work, because:</p>
+<ol>
+<li>At the beginning, it was quite confusing to get what was clearly going on.</li>
+<li>There’s a ton of options out there (Webpack null loaders; <a href="https://github.com/bkonkle/ignore-styles">ignore-styles</a>, which also provide custom handlers; <a href="https://github.com/morlay/babel-plugin-transform-require-ignore">babel-plugin-transform-require-ignore</a>…).</li>
+<li>I didn’t want to handle all the ignored extensions the same say.</li>
+</ol>
+<p>Yeah… Sometimes our JavaScript unit tests just know too much.</p>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/javascript/">javascript</a>, <a class="tag-link" href="/blog/tags/react/">react</a>, <a class="tag-link" href="/blog/tags/test/">test</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/a-bit-on-random-numbers-in-javascript/">
+        
+          A Bit on Random Numbers in JavaScript
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/shared-variables-between-javascript-and-css/">
+        
+          Shared Variables Between JavaScript and CSS
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/how-to-exclude-css-images-anything-from-unit-tests/';
+    this.page.identifier = '/blog/how-to-exclude-css-images-anything-from-unit-tests/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>Multiline Sass Comments </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Since the beginning of this year, I’ve created a lot of different boilerplates for projects. Working as a freelancer makes you challenge yourself ever...">
+  <meta property="og:description" content="Since the beginning of this year, I’ve created a lot of different boilerplates for projects. Working as a freelancer makes you challenge yourself ever...">
+  <meta itemprop="description" content="Since the beginning of this year, I’ve created a lot of different boilerplates for projects. Working as a freelancer makes you challenge yourself ever...">
+  <meta name="twitter:description" content="Since the beginning of this year, I’ve created a lot of different boilerplates for projects. Working as a freelancer makes you challenge yourself ever...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-multiline-sass-comments" class="article">
+  <header class="header">
+    <a href="/blog/multiline-sass-comments/">
+      <time
+        class="article-date"
+        datetime="2015-08-17T03:00:00.000Z
+      ">
+        August 17, 2015
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      Multiline Sass Comments
+    </h1>
+  </header>
+
+  <p>Since the beginning of this year, I’ve created a lot of different boilerplates for projects. Working as a freelancer makes you challenge yourself everyday to find out what fits better while working. Currently, it’s sometimes Stylus, sometimes Sass.</p>
+<p>Stylus is flexible, and I love it. Sass isn’t, but it’s cool anyway. Sometimes I find it hard to bear its inflexibility, though.</p>
+<p>On GitHub, there’s a closed <a href="https://github.com/sass/sass/issues/338">issue about multiline comments on Sass</a>  (<em>a Stylus feature!</em>), where I shared a solution for multiline Sass comments. A lot of people still don’t agree.</p>
+<p>I just want people on community to know it, because it needs to be discussed.</p>
+<h2 id="solution">Solution <a class="title-anchor" href="#solution" aria-hidden="true">¶</a></h2>
+<p>Start writing the comment as if it were single-line (<code>//</code>), then just follow its indentation. <a href="https://github.com/sass/sass/issues/338#issuecomment-131855911">Example</a>.</p>
+<pre><code class="language-css">// Multine comment
+   Indent the text
+   And this will be a comment too
+</code></pre>
+<p>Is it available on Sass docs? Let me know!</p>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/css/">css</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/desmitificando-seletores-complexos/">
+        
+          Desmitificando Seletores Complexos
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/como-eu-vi-a-braziljs-2015/">
+        
+          Como Eu Vi a BrazilJS 2015
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/multiline-sass-comments/';
+    this.page.identifier = '/blog/multiline-sass-comments/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>O Que Há de Errado com a &quot;Cultura jQuery&quot; </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Este não é um artigo sobre jQuery. Este é um artigo sobre ferramentas, sim, mas é, principalmente, um artigo sobre análise e o protagonismo do desenvo...">
+  <meta property="og:description" content="Este não é um artigo sobre jQuery. Este é um artigo sobre ferramentas, sim, mas é, principalmente, um artigo sobre análise e o protagonismo do desenvo...">
+  <meta itemprop="description" content="Este não é um artigo sobre jQuery. Este é um artigo sobre ferramentas, sim, mas é, principalmente, um artigo sobre análise e o protagonismo do desenvo...">
+  <meta name="twitter:description" content="Este não é um artigo sobre jQuery. Este é um artigo sobre ferramentas, sim, mas é, principalmente, um artigo sobre análise e o protagonismo do desenvo...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-o-que-ha-de-errado-com-a-cultura-jquery" class="article">
+  <header class="header">
+    <a href="/blog/o-que-ha-de-errado-com-a-cultura-jquery/">
+      <time
+        class="article-date"
+        datetime="2015-09-20T12:56:05.000Z
+      ">
+        September 20, 2015
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      O Que Há de Errado com a &quot;Cultura jQuery&quot;
+    </h1>
+  </header>
+
+  <div class="summary">
+<p>Este não é um artigo sobre jQuery. Este é um artigo sobre ferramentas, sim, mas é, principalmente, um artigo sobre <strong>análise</strong> e o protagonismo do desenvolvedor front-end nesse processo.</p>
+</div>
+<h2 id="resumo">Resumo <a class="title-anchor" href="#resumo" aria-hidden="true">¶</a></h2>
+<p><strong>Aplicações variam.</strong> Aprenda a definir a arquitetura da sua aplicação. Aprenda a reconhecer a necessidade de uma SPA (<em>Single Page Application</em>).</p>
+<p>A “cultura jQuery” te afasta de tudo isso, e, portanto, distancia você do seu papel enquanto desenvolvedor front-end.</p>
+<hr>
+<h2 id="introducao">Introdução <a class="title-anchor" href="#introducao" aria-hidden="true">¶</a></h2>
+<p>Se existe uma cultura nas agências digitais do Brasil que é unânime, é a cultura do jQuery. Não a cultura de utilizar todo o poder da biblioteca, no entanto, mas o hábito intrínseco de importar o <code>jqueryX.X.X.min.js</code> em todo projeto.</p>
+<p>(Sim, em 2015.)</p>
+<p>Sobre o que há de errado, serei sucinta, pois, para esse artigo, espero um público-alvo preguiçoso e acomodado.</p>
+<h2 id="o-que-ha-de-errado">O que há de errado <a class="title-anchor" href="#o-que-ha-de-errado" aria-hidden="true">¶</a></h2>
+<p>…em usar jQuery em 2015? O que há de errado em importar jQuery ao iniciar o meu projeto?</p>
+<p>Analisando superficialmente, <strong>nada</strong>.</p>
+<p>Mas isso tem dado brecha a uma zona de conforto profunda e, na minha experiência, com raízes difíceis de arrancar. Essa cultura se expande e transcende aquilo que lhe deu origem. Portanto, perceba:</p>
+<blockquote>
+<p>Este não é um artigo sobre jQuery.</p>
+</blockquote>
+<p>A comunidade de AngularJS é um exemplo de que isso não é sobre jQuery. Muitos migraram dele ao Angular sem abandonar a cultura. O resultado? Bem, muito tem sido dito sobre código Angular legado, que ninguém quer dar manutenção. A escolha errada já foi feita, e isso é demasiadamente penoso para a manutenção de uma aplicação complexa.</p>
+<p>O fato é que a <strong>cultura não mudou.</strong> Ainda se adota biblioteca ou framework em escala sem pensar duas vezes.</p>
+<h2 id="aprendendo-a-evitar">Aprendendo a evitar <a class="title-anchor" href="#aprendendo-a-evitar" aria-hidden="true">¶</a></h2>
+<blockquote>
+<p>Deve-se saber quando abranger uma visão holística do projeto, e quando separar responsabilidades.</p>
+</blockquote>
+<p>A separação de responsabilidades se daria pela análise dos requisitos da aplicação e dos desafios gerados, que trazem consigo o que chamo de “subproblemas” (<em>necessidades que surgem durante a análise do desafio</em>), que devem ser solucionados separadamente. A visão holística ajudaria a estruturar os componentes de forma consistente em um sistema, definindo uma arquitetura.</p>
+<p>Falando de desenvolvimento front-end moderno (e, portanto, falando de front-end <strong>modular</strong> e de unidades encapsuladas e independentes, os componentes), essa separação de responsabilidades torna-se ainda mais fácil! Vejamos, abaixo, alguns  subproblemas que surgem durante a análise de requisitos, apenas para exemplificar o que quero dizer quando trato a decisão de ferramentas como uma solução para um subproblema.</p>
+<div class="note">
+<p>Os exemplos a seguir não explicam o front-end modular na prática. Adianto, no entanto, ferramentas como <a href="http://browserify.org/">Browserify</a> ou <a href="https://webpack.github.io/">Webpack</a>, que fazem parte do <em>tooling</em> necessário.</p>
+</div>
+<h3 id="1-resiquicoes-ajax">1. Resiquições Ajax <a class="title-anchor" href="#1-resiquicoes-ajax" aria-hidden="true">¶</a></h3>
+<p><strong>Subproblema</strong>: escrever Ajax em JavaScript é pouco intuitivo, difícil de ler e escrever.</p>
+<p><strong>Solução possível</strong>: encapsular, no componente um módulo como <a href="https://github.com/ded/reqwest">Reqwest</a> e <a href="https://github.com/jakutis/httpinvoke">httpinvoke</a>. Você pode, inclusive, utilizar <em>apenas</em> o Ajax do <a href="https://www.npmjs.com/package/jquery">jQuery</a> (e não o jQuery inteiro!).</p>
+<h3 id="2-manipulacao-excessiva-do-dom">2. Manipulação excessiva do DOM <a class="title-anchor" href="#2-manipulacao-excessiva-do-dom" aria-hidden="true">¶</a></h3>
+<p><strong>Subproblemas</strong>: manipular DOM com JavaScript pode ser bastante exaustivo. Também, manipular em um nível excessivo é extremamente custoso para a performance da aplicação.</p>
+<p><strong>Solução possível</strong>: <a href="https://github.com/Matt-Esch/virtual-dom">Virtual DOM</a>, que está embutido em bibliotecas como <a href="https://facebook.github.io/react/">React</a> e <a href="https://lhorie.github.io/mithril/">Mithril</a>. Ou, se precisar mesmo do DOM, considere pacotes como <a href="https://github.com/ded/qwery">qwery</a> ou <a href="https://github.com/bevacqua/dominus">Dominus</a>, junto com <a href="https://www.npmjs.com/package/domready">domready</a>.</p>
+<div class="note">
+<p>E se precisássemos de Ajax no React, por exemplo? <a href="http://facebook.github.io/react/docs/tutorial.html#getting-started">Este mau  exemplo</a> na documentação do React importa o jQuery inteiro. Como você faria? 😉</p>
+</div>
+<h3 id="sobre-arquitetura">Sobre arquitetura <a class="title-anchor" href="#sobre-arquitetura" aria-hidden="true">¶</a></h3>
+<p>Esse tópico deve ser tratado durante a visão holística do projeto, isso é, da aplicação enquanto sistema de componentes. O <strong>subproblema</strong> seria a necessidade de estrutura que uma aplicação requere.</p>
+<p>Para isso, você não precisa usar aquilo que é tradicional (diretamente: <strong>você não precisa usar MVC</strong>). Existem outras implementações de arquiteturas que não a implementação feita pelo seu framework amado. Existem outras arquiteturas que não <em>Model-View-Controller</em>.</p>
+<p>Basicamente? Tenha um conhecimento decente de arquiteturas front-end (sugiro abrir a mente com <a href="https://facebook.github.io/react/blog/2014/05/06/flux.html">Flux</a>, que já possui bastante materiais e implementações da arquitetura disponíveís), e não um conhecimento aprofundado de MVC.</p>
+<h2 id="conclusao">Conclusão <a class="title-anchor" href="#conclusao" aria-hidden="true">¶</a></h2>
+<p>Conheça o projeto e saiba como analisar seus requisitos. O resultado deve ser uma descrição explícita da sua aplicação, com subproblemas já reconhecidos e, então, soluções possíveis, todas envolvidas por uma solução possível maior, que é a da arquitetura (definida durante a análise holística). Parece chato, mas vira hábito e acaba funcionando muito bem.</p>
+<blockquote>
+<p>Lembre-se de que existem habilidades que a documentação de uma ferramenta <strong>nunca</strong> te ajudará a desenvolver.</p>
+</blockquote>
+<p>Com o tempo, você vai saber quando adotar um framework específico em escala, quando optar por bibliotecas monolíticas, e terá, inclusive, seus preferidos a ponto de não ter sempre que definir soluções possíveis para subproblemas que aplicações têm em comum.</p>
+<p>(Em alguns projetos, você enxergará padrões, por exemplo: <a href="https://github.com/ded/qwery">qwery</a>, <a href="https://www.npmjs.com/package/domready">domready</a> e <a href="https://www.npmjs.com/package/lodash">lodash</a> são usados juntos frequentemente.)</p>
+<p>Um dia, no entanto, suas ferramentas falharão, outras ferramentas se adaptão melhor à realidade de seus projetos, e, então, o ciclo de análise recomeça. E você já sabe como proceder.</p>
+<h3 id="seja-curioso">Seja curioso <a class="title-anchor" href="#seja-curioso" aria-hidden="true">¶</a></h3>
+<p>No mais, seja curioso sobre arquiteturas de software, padrões de projeto, <em>tooling</em> — basta ser leitor(a). Seja curioso também sobre opiniões, principalmente quando elas tratam de desafios que ainda não tivemos. A <strong>visão crítica</strong> é ideal para abandonar a cultura jQuery.</p>
+<blockquote>
+<p>O estudo permite que as soluções possíveis surjam mais intuitivamente.</p>
+</blockquote>
+<p>A prática virá com os desafios, e nesses desafios é que deve entrar o seu protagonismo de apresentar soluções possíveis.</p>
+<h2 id="notas">Notas <a class="title-anchor" href="#notas" aria-hidden="true">¶</a></h2>
+<p>Esse é um rascunho de pensamentos que venho acumulando há algum tempo em razão de experiências de trabalho que tive, e confesso que eles podem ter sido apresentados de forma confusa, embora eu tenha me esforçado. Mas isso aqui não era para ser receita de bolo, de verdade! Até mesmo os exemplos citados não devem passar de exemplos.</p>
+<p>A minha abordagem possui falhas, e uma deles é que exige de quem desenvolve um conhecimento vasto de ferramentas, quando se usava apenas uma para tudo. (Para isso, recomendo um recurso disponível no <a href="https://www.npmjs.com">npm</a> e mecanismos de busca: a busca.)</p>
+<p>Mas perceba que o conhecimento vasto é apenas de ferramentas. O conhecimento exigido pelas ferramentas em si acaba sendo menor do que o exigido por aquelas <em>all-in-one</em> como jQuery e AngularJS. O fato de encapsularmos dependências considerando a necessidade de cada componente no front-end é um modo de mantermos a curva de aprendizagem fragmentada.</p>
+<p>De acordo com o que venho experimentando, desenvolver essa mentalidade tem retornado experiências maravilhosas e, inclusive, gerado menos código legado. Basta apenas aplicá-la à Engenharia de Software com bom senso.</p>
+<h2 id="conteudo-sugerido">Conteúdo sugerido <a class="title-anchor" href="#conteudo-sugerido" aria-hidden="true">¶</a></h2>
+<p>Os complementos abaixo são apenas para despertar a curiosidade em relação aos conceitos apresentados neste artigo, e não devem substituir o estudo necessário para deixar de lado, na prática, a “cultura jQuery”.</p>
+<ul>
+<li><a href="https://jsperf.com/virtual-dom-vs-real-dom">JSPerf: Real DOM vs Virtual DOM</a></li>
+<li><a href="http://www.ebaytechblog.com/2014/10/02/dont-build-pages-build-modules/">Don’t Build Pages, Build Modules</a></li>
+<li><a href="http://www.infoq.com/news/2014/05/facebook-mvc-flux">MVC Does Not Scale, Use Flux Instead</a></li>
+<li><a href="https://medium.com/@milankinen/good-bye-flux-welcome-bacon-rx-23c71abfb1a7">Goodbye Flux, welcome Bacon/rx?</a></li>
+<li>E, humildemente, o meu próprio blog, pois pretendo falar mais sobre arquiteturas de aplicação e front-end modular (que adoro!) na teoria e prática.</li>
+</ul>
+<hr>
+<p><strong>Se você entendeu a razão pela qual a “cultura jQuery” distancia você do seu papel, a mensagem foi entregue com sucesso.</strong></p>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/javascript/">javascript</a>, <a class="tag-link" href="/blog/tags/pt-br/">pt-BR</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/a-guide-to-favicons-and-touch-icons/">
+        
+          A Guide to Favicons and Touch Icons
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/o-til-no-javascript/">
+        
+          O Til no JavaScript
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/o-que-ha-de-errado-com-a-cultura-jquery/';
+    this.page.identifier = '/blog/o-que-ha-de-errado-com-a-cultura-jquery/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

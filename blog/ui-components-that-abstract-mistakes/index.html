@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>UI Components that Abstract Mistakes </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="2017, October 14th.
+A cloudy day [1] of Autumn in Berlin, probably something else in the place you live, and you’ve read the same date twice and this ...">
+  <meta property="og:description" content="2017, October 14th.
+A cloudy day [1] of Autumn in Berlin, probably something else in the place you live, and you’ve read the same date twice and this ...">
+  <meta itemprop="description" content="2017, October 14th.
+A cloudy day [1] of Autumn in Berlin, probably something else in the place you live, and you’ve read the same date twice and this ...">
+  <meta name="twitter:description" content="2017, October 14th.
+A cloudy day [1] of Autumn in Berlin, probably something else in the place you live, and you’ve read the same date twice and this ...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-ui-components-that-abstract-mistakes" class="article">
+  <header class="header">
+    <a href="/blog/ui-components-that-abstract-mistakes/">
+      <time
+        class="article-date"
+        datetime="2017-10-14T21:06:00.000Z
+      ">
+        October 14, 2017
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      UI Components that Abstract Mistakes
+    </h1>
+  </header>
+
+  <p>2017, October 14th.</p>
+<p>A cloudy day <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> of Autumn in Berlin, probably something else in the place you live, <em>and</em> you’ve read the same date twice <em>and</em> this introduction actually doesn’t matter. But let me tell you about something that matters.</p>
+<p>Everything is made up of <code>&lt;div&gt;</code>s and <code>&lt;span&gt;</code>s again, utterly hidden behind abstractions proudly called components.  No one seems to remember <em>(or do they?)</em> the difference between <code>p</code> and <code>span</code>, let alone the point of using <code>section</code> rather than <code>div</code>.</p>
+<p>Bad decisions – to not just to say bad and even invalid HTML markup – are buried in components developers find awesome to compose user interfaces with. The web, and people, pay the price.</p>
+<hr>
+<h2 id="creating-components">Creating components <a class="title-anchor" href="#creating-components" aria-hidden="true">¶</a></h2>
+<p class="note">From now on, to explain my point, I'll be assuming some familiarity with <a href="https://reactjs.org/" title="React">React</a> (a JavaScript library), although this applies to any kind of component abstraction.</p>
+<p>Let’s say you just started a brand new React web app. You need to create a button at some point, and, because it’s reused in other parts of the app, has custom styles and also a fancy icon, you decide to introduce a component with all that abstracted out. Nice! You could do it like this:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> Button <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> onClick<span class="token punctuation">,</span> children <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>span <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"my-horrible-button"</span> onClick<span class="token operator">=</span><span class="token punctuation">{</span>onClick<span class="token punctuation">}</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>i <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"my-terrible-font-awesome-icon"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>i<span class="token operator">></span>
+    <span class="token punctuation">{</span>children<span class="token punctuation">}</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">></span>
+</code></pre>
+<p>The user interface is then composed as the following:</p>
+<pre><code class="language-jsx"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Brazilian Bananas <span class="token punctuation">(</span><span class="token number">1</span> kg<span class="token punctuation">)</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Sweet and healthy bananas<span class="token operator">!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Absolutely the best<span class="token punctuation">.</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Button</span> <span class="token attr-name">onClick</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'🍌'</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>Buy $<span class="token number">0.99</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+</code></pre>
+<p>It looks good! You were born for this, weren’t you?</p>
+<p>Quite easy to miss what’s wrong when components are just used like that. A button, isn’t it? The engineering team can easily grasp what that means and what that does, after all.</p>
+<p>It could also be a <code>&lt;FormLabel /&gt;</code> or <code>&lt;Paragraph /&gt;</code> as <code>span</code> elements, or <code>div</code>s all over that place. Although they all work, mistakes are abstracted in components.</p>
+<p class="note">I specifically talk about markup as the mistake throughout this article, however it could be anything really. Components look inoffensive when you're using them.</p>
+<h2 id="the-web-isnt-your-abstraction">The web isn’t your abstraction <a class="title-anchor" href="#the-web-isnt-your-abstraction" aria-hidden="true">¶</a></h2>
+<p>Now that HTML is all abstracted through JavaScript libraries and frameworks (which is not wrong), I wonder whether developers only went for semantic elements for the sake of making markup more readable for themselves. With React, your <code>&lt;Header&gt;</code> now may be a <code>div</code>. Out of the abstraction, though, you’d think twice before going for a <code>div</code> to make a header – you’d rather use HTML5’s <code>header</code>.</p>
+<blockquote>
+<p>Because of the abstraction, output markup isn’t something we talk that much about anymore.</p>
+</blockquote>
+<p>Did we really get the benefits of HTML5 and why new elements were introduced?  Why <code>button</code>? <sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup> What’s <code>header</code> useful for? Why should one use <code>section</code> at all?</p>
+<p class="note">By the way, do you know how many occurrences of <code>header</code>,  <code>article</code>,  <code>section</code> I've found on Netflix's landing page? Zero.  It's all div soup.</p>
+<p>Matter of fact is that browser engines and people – nothing less than the ones who you really write code for – won’t ever know about your abstractions. A screen reader won’t know your “button” is actually a button<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>. (They will definitely get to know the <code>span</code> though, and that won’t help.)</p>
+<figure style="text-align: center"><picture><img class="normal-img" src="https://imgs.xkcd.com/comics/tags.png" alt="xkcd, comic #1444"></picture>
+<figcaption><a href="http://xkcd.com/1144">xkcd: Tags</a></figcaption></figure>
+<p>Also, it’s never been easier to write invalid markup without even realizing it! After React, it seems acceptable to place a <code>button</code> inside an anchor link, and even giant elephants inside <code>span</code>. Has anyone ever thought why they are considered invalid markup in the first place?</p>
+<h2 id="dont-make-it-hard">Don’t make it hard <a class="title-anchor" href="#dont-make-it-hard" aria-hidden="true">¶</a></h2>
+<p>Browsers and assistive technologies are smarter than ever<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>, indeed, yet they still count on developers to write code they can understand and people can benefit from. By doing so, you make it easy for:</p>
+<ol>
+<li><strong>people</strong>, who will be able to navigate around the website, skipping over navigation sections or quickly jumping from one article to another<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>.</li>
+<li><strong>yourself</strong>, so you don’t have to reimplement default browser behaviours.</li>
+</ol>
+<p>Therefore, please: don’t waste features that technologies try to give users, and developers, out of the box.</p>
+<p>Remember who you write code for.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>If I had managed to publish this yesterday, the day would be sunny. I’ve missed the opportunity to make the article seems a little happier. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>The button element was first introduced in HTML4. (<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button">Source</a>) <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>What’s wrong with using a non-semantic element as a button? Well, if the button is accessible, nothing really. But doing so demands <a href="https://www.marcozehe.de/2013/04/24/easy-aria-tip-6-making-clickables-accessible/">extra work</a> that nobody is up for, besides that fact that <a href="https://www.nczonline.net/blog/2013/01/29/you-cant-create-a-button/">you can’t actually create a button</a>. <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>Technologies may even process <code>&lt;span class=&quot;tel&quot;&gt;123-456-7890&lt;/span&gt;</code> as a telephone, and allow for automatic dialling of it. See <a href="https://en.wikipedia.org/wiki/Microformat">microformat</a> for more information. <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>Why not, right? After all, <code>article</code>s are for independent pieces of content, e.g., an user-submitted comment or a forum post. (<a href="https://www.w3.org/TR/html5/sections.html#the-article-element">Source</a>) <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/html/">html</a>, <a class="tag-link" href="/blog/tags/javascript/">javascript</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/an-open-letter-to-my-loving-father/">
+        
+          An Open Letter to my Loving Father
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/expressive-javascript-conditionals/">
+        
+          Expressive JavaScript Conditionals (for Humans)
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/ui-components-that-abstract-mistakes/';
+    this.page.identifier = '/blog/ui-components-that-abstract-mistakes/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

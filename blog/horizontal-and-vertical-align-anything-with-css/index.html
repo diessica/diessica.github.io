@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>Horizontal and Vertical Align Anything with CSS </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Using translate() is one of the easiest ways[1] to instantly horizontal and vertical align any element with CSS without knowing its dimensions.
+Vertic...">
+  <meta property="og:description" content="Using translate() is one of the easiest ways[1] to instantly horizontal and vertical align any element with CSS without knowing its dimensions.
+Vertic...">
+  <meta itemprop="description" content="Using translate() is one of the easiest ways[1] to instantly horizontal and vertical align any element with CSS without knowing its dimensions.
+Vertic...">
+  <meta name="twitter:description" content="Using translate() is one of the easiest ways[1] to instantly horizontal and vertical align any element with CSS without knowing its dimensions.
+Vertic...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-horizontal-and-vertical-align-anything-with-css" class="article">
+  <header class="header">
+    <a href="/blog/horizontal-and-vertical-align-anything-with-css/">
+      <time
+        class="article-date"
+        datetime="2016-11-06T21:10:01.000Z
+      ">
+        November 06, 2016
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      Horizontal and Vertical Align Anything with CSS
+    </h1>
+  </header>
+
+  <p>Using <code>translate()</code> is one of the easiest ways<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> to instantly horizontal and vertical align any element with CSS without knowing its dimensions.</p>
+<h2 id="vertical-align">Vertical Align <a class="title-anchor" href="#vertical-align" aria-hidden="true">¶</a></h2>
+<p>You probably know the “<a href="http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/">vertical align with just 3 lines of CSS</a>” trick, which uses <code>translateY()</code>.</p>
+<pre><code class="language-css"><span class="token selector">.my-element</span> <span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+  <span class="token property">top</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="horizontal-align">Horizontal Align <a class="title-anchor" href="#horizontal-align" aria-hidden="true">¶</a></h2>
+<p>But did you know it’s also possible to use <code>translate()</code> to horizontal align elements?</p>
+<pre><code class="language-css"><span class="token selector">.my-element</span> <span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+  <span class="token property">left</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="vertical-and-horizontal-align">Vertical and Horizontal Align <a class="title-anchor" href="#vertical-and-horizontal-align" aria-hidden="true">¶</a></h2>
+<p>​	Mixing both, we can horizontal and vertical align anything!</p>
+<pre><code class="language-css"><span class="token selector">.my-element</span> <span class="token punctuation">{</span>
+  <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+  <span class="token property">left</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+  <span class="token property">top</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+  <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-50%<span class="token punctuation">)</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-50%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<div class="note">
+<p>See <a href="http://output.jsbin.com/dusesi">JSBin</a>.</p>
+</div>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Flexbox also provides a great solution. See <a href="https://philipwalton.github.io/solved-by-flexbox/demos/vertical-centering/">Solved by Flexbox: Vertical Centering</a> <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/css/">css</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/solitude/">
+        
+          Solitude
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/a-bit-on-random-numbers-in-javascript/">
+        
+          A Bit on Random Numbers in JavaScript
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/horizontal-and-vertical-align-anything-with-css/';
+    this.page.identifier = '/blog/horizontal-and-vertical-align-anything-with-css/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>Expressive JavaScript Conditionals (for Humans) </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Conditionals! As programmers, we write at least one every day. Easy to write, horrible to read, and sometimes it seems as though there’s no way to wor...">
+  <meta property="og:description" content="Conditionals! As programmers, we write at least one every day. Easy to write, horrible to read, and sometimes it seems as though there’s no way to wor...">
+  <meta itemprop="description" content="Conditionals! As programmers, we write at least one every day. Easy to write, horrible to read, and sometimes it seems as though there’s no way to wor...">
+  <meta name="twitter:description" content="Conditionals! As programmers, we write at least one every day. Easy to write, horrible to read, and sometimes it seems as though there’s no way to wor...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-expressive-javascript-conditionals" class="article">
+  <header class="header">
+    <a href="/blog/expressive-javascript-conditionals/">
+      <time
+        class="article-date"
+        datetime="2017-10-30T02:00:00.000Z
+      ">
+        October 30, 2017
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      Expressive JavaScript Conditionals (for Humans)
+    </h1>
+  </header>
+
+  <p>Conditionals! As programmers, we write at least one every day. Easy to write, horrible to read, and sometimes it seems as though there’s no way to work around that.</p>
+<p>Today, I’m happy to share some patterns I’ve learned over time and have spread heavily in code reviews. Let’s rethink conditionals to make the most out of a language’s power of expression – in the case of this article, JavaScript.</p>
+<h2 id="patterns-for-conditionals">Patterns for Conditionals <a class="title-anchor" href="#patterns-for-conditionals" aria-hidden="true">¶</a></h2>
+<p>First, to put you in the mood, a quote from Literate Programming<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>, by Donald Knuth.</p>
+<p style="text-align: center; font-style: italic">The practitioner of literate programming can be regarded as an essayist, whose main concern is with exposition and excellence of style. Such an author, with thesaurus in hand, chooses the names of variables carefully and explains what each variable means. He or she strives for a program that is comprehensible because its concepts have been introduced in an order that is best for human understanding, using a mixture of formal and informal methods that reinforce each other.</p>
+<p>That sums up the approach for this post: purely aimed at <strong>how to write code for people to read</strong>. Performance doesn’t matter now, since 1) that’s not the goal and 2) I don’t believe in premature optimisation.</p>
+<p>I’ll briefly talk about each pattern, but what’s more important here is to read the code carefully and get something out of it (as if it were poetry or something!).</p>
+<h3 id="1-variables-that-hold-conditions">1. Variables that hold conditions <a class="title-anchor" href="#1-variables-that-hold-conditions" aria-hidden="true">¶</a></h3>
+<p>When your condition is made up of an expression (or many of them), you can store it within meaningful-named variables.</p>
+<p>Let’s say, to illustrate, that our program holds some data about a fruit and we have to check whether that fruit is a banana. We could do this:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> fruit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    colors<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'yellow'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    sweet<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>
+    fruit<span class="token punctuation">.</span>sweet <span class="token operator">===</span> <span class="token boolean">true</span> <span class="token operator">&amp;&amp;</span>
+    fruit<span class="token punctuation">.</span>colors<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>color <span class="token operator">=</span><span class="token operator">></span> color <span class="token operator">===</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'do your stuff 🍌'</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token string">'is banana'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Or we could store our conditions in variables!</p>
+<pre><code class="language-js"><span class="token keyword">const</span> fruit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    colors<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'yellow'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    sweet<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> isSweet <span class="token operator">=</span> fruit<span class="token punctuation">.</span>sweet <span class="token operator">===</span> <span class="token boolean">true</span> <span class="token comment" spellcheck="true">// or just `fruit.sweet`</span>
+<span class="token keyword">const</span> isYellow <span class="token operator">=</span> fruit<span class="token punctuation">.</span>colors<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>color <span class="token operator">=</span><span class="token operator">></span> color <span class="token operator">===</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> isBanana <span class="token operator">=</span> isYellow <span class="token operator">&amp;&amp;</span> isSweet
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>isBanana<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'do your stuff 🍌'</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token string">'is banana'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p class="note">Not all conditions need to be in a variable. <code>fruit.sweet</code>, for instance, is quite expressive by its own.</p>
+<p>This way, if we or our workmates need to know what makes a fruit a banana in our program, it’s just a matter of checking out the variable itself. The logic for how conditions evaluate will be there, behind a meaningful name.</p>
+<p>It’s even more useful for composing and reusing conditions.</p>
+<h4 id="filtering-arrays">Filtering arrays <a class="title-anchor" href="#filtering-arrays" aria-hidden="true">¶</a></h4>
+<p class="note">In the previous example, all variables were conditions based on the <code>fruit</code> object, for didactic purposes. Commonly, though, those variables actually store (pure) functions that take any fruit and test against it. I'm changing that to fit this example.</p>
+<p>Let’s say we’ve got an array of fruits and we need to filter all the bananas out of it.</p>
+<pre><code class="language-js"><span class="token keyword">const</span> fruits <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+    colors<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'yellow'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    sweet<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    colors<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'red'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    sweet<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// don't know what kind of fruit this'd be</span>
+ <span class="token punctuation">}</span><span class="token punctuation">]</span>
+
+<span class="token keyword">const</span> isSweet <span class="token operator">=</span> fruit <span class="token operator">=</span><span class="token operator">></span> fruit<span class="token punctuation">.</span>sweet <span class="token operator">===</span> <span class="token boolean">true</span>
+
+<span class="token keyword">const</span> isYellow <span class="token operator">=</span> fruit <span class="token operator">=</span><span class="token operator">></span>
+    fruit<span class="token punctuation">.</span>colors<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>color <span class="token operator">=</span><span class="token operator">></span> color <span class="token operator">===</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> isBanana <span class="token operator">=</span> fruit <span class="token operator">=</span><span class="token operator">></span> <span class="token function">isSweet</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isYellow</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> bananas <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>isBanana<span class="token punctuation">)</span>
+</code></pre>
+<p>So expressive! I love the way that I can read that last line and even a kid (a non-programmer one!) can understand. <em>(Yes, I’ve tried that.)</em></p>
+<p>The currying technique would help introduce expressiveness without the verbosity for <code>isBanana</code>. An optional appendix at the end of the article elaborates more on that, if you’re curious.</p>
+<p>That’s it. Hold on to that one though – it’s the foundation for what’s next.</p>
+<h3 id="2-define-value-conditionally">2. Define value conditionally <a class="title-anchor" href="#2-define-value-conditionally" aria-hidden="true">¶</a></h3>
+<p>Still considering the variables from the example above, this could also be done:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> myFruit <span class="token operator">=</span> isYellow <span class="token operator">&amp;&amp;</span> isSweet <span class="token operator">&amp;&amp;</span> <span class="token string">'banana'</span>
+<span class="token keyword">return</span> myFruit
+</code></pre>
+<p>The value for the <code>myFruit</code> variable will only be assigned to “banana” if those conditions are true. Pretty useful for when values are defined conditionally!</p>
+<p>That saves you from <code>if (isYellow &amp;&amp; isSweet) [...]</code>, and it’s quite expressive, I’d say. An expressive expression. 👌</p>
+<h3 id="3-define-value-conditionally-with-fallback">3. Define value conditionally with fallback <a class="title-anchor" href="#3-define-value-conditionally-with-fallback" aria-hidden="true">¶</a></h3>
+<figure style="text-align: center"><picture><img class="normal-img" width="250" src="https://imgs.xkcd.com/comics/conditionals_2x.png" alt="Conditionals, a comic from xkcd"></picture>
+<figcaption><a href="http://xkcd.com/1652">xkcd: Conditionals</a></figcaption></figure>
+<p>What if we want something else in case it’s not a banana? Instead of an <code>if (isBanana) [...]</code> with <code>else</code>, go for the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator">ternary operator</a>.</p>
+<pre><code class="language-js"><span class="token keyword">const</span> isBanana <span class="token operator">=</span> isYellow <span class="token operator">&amp;&amp;</span> isSweet
+<span class="token keyword">const</span> myFruit <span class="token operator">=</span> isBanana <span class="token operator">?</span> <span class="token string">'is banana'</span> <span class="token punctuation">:</span> <span class="token string">'is other stuff'</span>
+<span class="token keyword">return</span> myFruit
+</code></pre>
+<p>Some additional but important advice I’d give regarding ternary expressions:</p>
+<ul>
+<li>Make them as compound as possible.</li>
+<li>Do NOT nest them. Don’t pretend the nesting is readable – it’s not even human to do that.</li>
+<li>Don’t avoid writing <code>if</code> statements because you want to look smart.</li>
+</ul>
+<h3 id="4-check-for-all-conditions">4. Check for all conditions <a class="title-anchor" href="#4-check-for-all-conditions" aria-hidden="true">¶</a></h3>
+<p>We’ve (finally) found out that checking for <code>isYellow</code> and <code>isSweet</code> isn’t enough to make sure the fruit is a banana. After all, yellow pepper is both sweet and yellow and it’s still not a banana, right?</p>
+<p>Right. We then add more checks to the <code>isBanana</code> variable, and this time they’re ugly ones: they check whether the fruit is either from Brazil or Ecuador, both top banana producing countries.</p>
+<pre><code class="language-js"><span class="token keyword">const</span> fruit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    colors<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'yellow'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    sweet<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    countries<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'Brazil'</span><span class="token punctuation">,</span>
+        topProducer<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// i'm brazilian and therefore biased</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'Ecuador'</span><span class="token punctuation">,</span>
+        topProducer<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> isSweet <span class="token operator">=</span> fruit<span class="token punctuation">.</span>sweet <span class="token operator">===</span> <span class="token boolean">true</span> <span class="token comment" spellcheck="true">// or just `fruit.sweet`</span>
+<span class="token keyword">const</span> isYellow <span class="token operator">=</span> fruit<span class="token punctuation">.</span>colors<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>color <span class="token operator">=</span><span class="token operator">></span> color <span class="token operator">===</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> isBrazilian <span class="token operator">=</span> fruit<span class="token punctuation">.</span>countries<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> i<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'Brazil'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> isEcuadorian <span class="token operator">=</span> fruit<span class="token punctuation">.</span>countries<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> i<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'Ecuador'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> isBanana <span class="token operator">=</span> isYellow <span class="token operator">&amp;&amp;</span> isSweet <span class="token operator">&amp;&amp;</span> isBrazilian <span class="token operator">&amp;&amp;</span> isEcuadorian
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>isBanana<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'do your stuff!11 🍌'</span><span class="token punctuation">)</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'now this is really a banana'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Did you see how big <code>isBanana</code> is getting? We’d have to start breaking lines in those <code>&amp;&amp;</code> to improve readability, which, personally, I don’t like doing.</p>
+<p>If refactoring the booleans into new variables isn’t an option anymore, what about <em>storing the conditions in an array and testing every item for truthiness</em>?</p>
+<p>Use the power of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every">array’s <code>every</code></a>:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> isBanana <span class="token operator">=</span> <span class="token punctuation">[</span>isYellow<span class="token punctuation">,</span> isSweet<span class="token punctuation">,</span> isEcuadorian<span class="token punctuation">,</span> isBrazilian<span class="token punctuation">]</span>
+    <span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>Boolean<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// or `x => x === true`</span>
+</code></pre>
+<p class="note">Repetitive friendly reminder: don't store every condition in a variable. Remember you can always add the condition itself to the array.</p>
+<p>You can even turn that into a snippet:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> all <span class="token operator">=</span> arr <span class="token operator">=</span><span class="token operator">></span> arr<span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>Boolean<span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> isBanana <span class="token operator">=</span> <span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+    isYellow<span class="token punctuation">,</span>
+    isSweet<span class="token punctuation">,</span>
+    isEcuadorian<span class="token punctuation">,</span>
+    isBrazilian<span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>I don’t know how useful that looks for you, but, in everyday work, I really appreciate doing it.</p>
+<h3 id="5-check-for-any-condition">5. Check for any condition <a class="title-anchor" href="#5-check-for-any-condition" aria-hidden="true">¶</a></h3>
+<p>What if we’ve got crazy and we’re fine considering something a banana when it’s either yellow, Brazilian or sweet?</p>
+<p>Use the power of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some">array’s <code>some</code></a>:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> isBanana <span class="token operator">=</span> <span class="token punctuation">[</span>isYellow<span class="token punctuation">,</span> isSweet<span class="token punctuation">,</span> isBrazilian<span class="token punctuation">]</span>
+    <span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>Boolean<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// or `x => x === true`</span>
+</code></pre>
+<p class="note">Yeah, yeah, I know, you can just use the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators#Logical_OR_()">OR operator</a>.</p>
+<p>If any of them evaluates to true, profit! – it’s a banana. 🍌</p>
+<pre><code class="language-js"><span class="token keyword">const</span> any <span class="token operator">=</span> arr <span class="token operator">=</span><span class="token operator">></span> arr<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>Boolean<span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> isBanana <span class="token operator">=</span> <span class="token function">any</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+    isYellow<span class="token punctuation">,</span>
+    isSweet<span class="token punctuation">,</span>
+    isBrazilian<span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>In other words, being a Brazilian means you’re a banana! It doesn’t sound any bad to me honestly.</p>
+<p>Pretty similar to <a href="http://ramdajs.com/docs/#either">Ramda’s <code>either</code></a>. 😎</p>
+<h3 id="6-early-return">6. Early return <a class="title-anchor" href="#6-early-return" aria-hidden="true">¶</a></h3>
+<p>We want something special for when the banana is Brazilian! <code>else</code> conditions would do the trick, wouldn’t they?</p>
+<pre><code class="language-js"><span class="token keyword">const</span> fruit <span class="token operator">=</span> <span class="token punctuation">{</span>
+    colors<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'yellow'</span><span class="token punctuation">,</span> <span class="token string">'green'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    sweet<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    countries<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'Brazil'</span><span class="token punctuation">,</span>
+        topProducer<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// i'm brazilian and therefore biased</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'Ecuador'</span><span class="token punctuation">,</span>
+        topProducer<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> isSweet <span class="token operator">=</span> fruit<span class="token punctuation">.</span>sweet <span class="token operator">===</span> <span class="token boolean">true</span> <span class="token comment" spellcheck="true">// or just `fruit.sweet`</span>
+<span class="token keyword">const</span> isYellow <span class="token operator">=</span> fruit<span class="token punctuation">.</span>colors<span class="token punctuation">.</span><span class="token function">some</span><span class="token punctuation">(</span>color <span class="token operator">=</span><span class="token operator">></span> color <span class="token operator">===</span> <span class="token string">'yellow'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> isBrazilian <span class="token operator">=</span> fruit<span class="token punctuation">.</span>countries<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> i<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'Brazil'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> isEcuadorian <span class="token operator">=</span> fruit<span class="token punctuation">.</span>countries<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>i <span class="token operator">=</span><span class="token operator">></span> i<span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'Ecuador'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> isBanana <span class="token operator">=</span> isYellow <span class="token operator">&amp;&amp;</span> isSweet
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>isBanana <span class="token operator">&amp;&amp;</span> isBrazilian<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">// first true case!</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'i am a brazilian banana i love football 🍌'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>isBanana <span class="token operator">&amp;&amp;</span> isEcuadorian<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'i am an ecuadorian banana do not mess with me 🍌'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'a normal banana from somewhere else'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Alternatively, THOOOUGH, we can early return (nothing at all, i.e. <code>undefined</code>), which will make <strong>our code stops its flow at that point</strong>.</p>
+<pre><code class="language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>isBanana <span class="token operator">&amp;&amp;</span> isBrazilian<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'i am a brazilian banana i love football 🍌'</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token comment" spellcheck="true">// sTAAAAHP!!!1</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span>isBanana <span class="token operator">&amp;&amp;</span> isEcuadorian<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'i am an ecuadorian banana do not mess with me 🍌'</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token comment" spellcheck="true">// DON'T GO ANY FURTHER, JAVASCRIPT!11</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// or do, whatever</span>
+<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'a normal banana from somewhere else'</span><span class="token punctuation">)</span>
+</code></pre>
+<p class="note">Those checks could also be refactored into a variable named <code>isBrazilianBanana</code>. I found it too much for this example though, so this is just a friendly reminder that your conditions can always be composable.</p>
+<p>Keep in mind that early returns might make the flow of your program confusing. Different from when you’re using <code>else</code> conditions, it’s not explicit that the conditionals are from the same logical group anymore.</p>
+<h3 id="7-check-for-the-same-variable">7. Check for the same variable <a class="title-anchor" href="#7-check-for-the-same-variable" aria-hidden="true">¶</a></h3>
+<p>Let’s get the colour of the fruits! Each fruit has one.</p>
+<p>Hmmm… Different cases that require different handling, but all handled cases depend on the same thing. What do we do? We conditionally check for its value and handle the case depending on that.</p>
+<pre><code class="language-js"><span class="token keyword">const</span> getFruitColor <span class="token operator">=</span> fruit <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>fruit <span class="token operator">===</span> <span class="token string">'banana'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">'is yellow'</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>fruit <span class="token operator">===</span> <span class="token string">'apple'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">'is red'</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>fruit <span class="token operator">===</span> <span class="token string">'orange'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token string">'is orange'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">getFruitColor</span><span class="token punctuation">(</span><span class="token string">'banana'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => is yellow</span>
+</code></pre>
+<p class="note">This code would benefit from early returns, and, of course, the <code>switch</code> statement.</p>
+<p>Or we don’t. Because, alternatively, we can create a getter function (<code>getFruitColor</code>) that:</p>
+<ol>
+<li>inputs a key (<code>fruit</code>), and</li>
+<li>outputs the value that was assigned to that key in a specific map (<code>fruitColors</code>).</li>
+</ol>
+<p>Like this:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> fruitColors <span class="token operator">=</span> <span class="token punctuation">{</span>
+    banana<span class="token punctuation">:</span> <span class="token string">'is yellow'</span>
+    apple<span class="token punctuation">:</span> <span class="token string">'is red'</span><span class="token punctuation">,</span>
+    orange<span class="token punctuation">:</span> <span class="token string">'is orange'</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> getFruitColor <span class="token operator">=</span> fruit <span class="token operator">=</span><span class="token operator">></span> fruitColors<span class="token punctuation">[</span>fruit<span class="token punctuation">]</span>
+
+<span class="token function">getFruitColor</span><span class="token punctuation">(</span><span class="token string">'banana'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// fruitColors['banana'] => is yellow</span>
+</code></pre>
+<p>Simplifying, since that map isn’t useful outside of the getter itself anyway:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> getFruitColor <span class="token operator">=</span> fruit <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+    banana<span class="token punctuation">:</span> <span class="token string">'is yellow'</span>
+    apple<span class="token punctuation">:</span> <span class="token string">'is red'</span><span class="token punctuation">,</span>
+    orange<span class="token punctuation">:</span> <span class="token string">'is orange'</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">[</span>fruit<span class="token punctuation">]</span>
+
+<span class="token function">getFruitColor</span><span class="token punctuation">(</span><span class="token string">'banana'</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => is yellow</span>
+</code></pre>
+<p>This is a very common technique I first saw on a <a href="https://javascriptweblog.wordpress.com/2010/03/08/caseagainstswitch/">blog post from Angus Croll</a> in 2010. I love the simplicity of it.</p>
+<p>Nowadays there’s even more freedom with this technique, considering features such as <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#Computed_property_names">computed property names for objects</a>. But don’t get too creative with that! Go for what’s more readable and expressive for you <strong>AND</strong> the people you work with.</p>
+<h3 id="appendix-currying-because-verbosity-isnt-expressiveness">Appendix: Currying, because verbosity isn’t expressiveness <a class="title-anchor" href="#appendix-currying-because-verbosity-isnt-expressiveness" aria-hidden="true">¶</a></h3>
+<p class="note">This is an additional reading and requires familiarity with curried functions. For further reading on the currying technique, I recommend the <a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html#cant-live-if-livin-is-without-you">"Currying" chapter</a> of the book Mostly Adequate Guide to Functional Programming, or <a href="https://www.sitepoint.com/currying-in-functional-javascript/">A Beginner’s Guide to Currying</a>, as a more beginner-friendly introduction.</p>
+<p>Let’s reconsider:</p>
+<ol>
+<li>the problem from the 1st, where we had an array of fruits and had to create a function that checks whether the fruit passed to it was a banana, and</li>
+<li>the <code>all</code> util from the 4th pattern.</li>
+</ol>
+<h4 id="check-for-all-conditions-revisited">Check for all conditions, revisited <a class="title-anchor" href="#check-for-all-conditions-revisited" aria-hidden="true">¶</a></h4>
+<p>Imagine if we had a lot of conditions for <code>isBanana</code>. We could use <code>&amp;&amp;</code> or even <code>all</code>.</p>
+<pre><code class="language-js"><span class="token keyword">const</span> isBanana <span class="token operator">=</span> fruit <span class="token operator">=</span><span class="token operator">></span> <span class="token function">isBanana</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isSweet</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isEcuadorian</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token function">isBrazilian</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// or</span>
+<span class="token keyword">const</span> isBanana <span class="token operator">=</span> fruit <span class="token operator">=</span><span class="token operator">></span> <span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+    <span class="token function">isYellow</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">isSweet</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">isEcuadorian</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">isBrazilian</span><span class="token punctuation">(</span>fruit<span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<p>It’s meaningful, easy to read, but introduces too much verbosity. The currying technique could help us introduce more meaning without being verbose. With some changes in the <code>all</code> util, that could be boiled down to:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> isBanana <span class="token operator">=</span> <span class="token function">all</span><span class="token punctuation">(</span><span class="token punctuation">[</span>isSweet<span class="token punctuation">,</span> isYellow<span class="token punctuation">,</span> isEcuadorian<span class="token punctuation">,</span> isBrazilian<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// no explicit fruit here, and still works!</span>
+<span class="token keyword">const</span> bananas <span class="token operator">=</span> fruits<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>isBanana<span class="token punctuation">)</span>
+</code></pre>
+<p>Notice we’re not explicitly passing fruit anymore. How do we do that? By making <code>all</code> a curried function. There are some ways to achieve that, here’s one:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> all <span class="token operator">=</span> conditions <span class="token operator">=</span><span class="token operator">></span>
+    currentItem <span class="token operator">=</span><span class="token operator">></span> conditions
+        <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>condition <span class="token operator">=</span><span class="token operator">></span> <span class="token function">condition</span><span class="token punctuation">(</span>currentItem<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">every</span><span class="token punctuation">(</span>Boolean<span class="token punctuation">)</span>
+</code></pre>
+<p>It takes the array of conditions and returns a function that takes the current item and calls each condition with that (as <em>argument</em>!). At the end, we check whether they all evaluated to true. It’s not magic, it’s CURRYING!!!11<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></p>
+<p>That’s, of course, a simplistic implementation, which has costed me an array (from <code>map</code>). What’s important to get is how we play with <strong>function arguments under the hood</strong> to achieve currying.</p>
+<p>You can curry your functions using <a href="http://ramdajs.com/docs/#all">Ramda’s <code>curry</code></a> (or Lodash’s, whatever); or, if you’re interested on that as an util, <a href="http://ramdajs.com/docs/#all">Ramda’s <code>all</code></a> and <a href="https://github.com/ramda/ramda/blob/master/source/all.js">its source</a> are really worth-checking!</p>
+<h2 id="final-considerations">Final considerations <a class="title-anchor" href="#final-considerations" aria-hidden="true">¶</a></h2>
+<p>By striving for conditionals as expressions other than statements, you write code in a <strong>functional</strong> approach. Code with a clearer sense of what it’s being checked without having to unearth to its foundations. Code that’s easier and faster for people to reason about.</p>
+<blockquote>
+<p>But if your code is fine with an <code>if</code> rather than an object lookup or a ternary operator, just stick to it.</p>
+</blockquote>
+<p>It’d break the whole purpose of this post if those patterns were used for looking smart. However, if refactoring your conditionals with them would lead to a more expressive codebase, go for it! Play with the patterns, <strong>compound them</strong>. Use your creativity to communicate well.</p>
+<p>It’s a language, after all.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>A programming paradigm first introduced by Donald Knuth, with the goal of providing an alternative, human, perspective on the programmer’s motivation. <a href="http://www.literateprogramming.com/knuthweb.pdf">Read the article</a>. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p><strong>It may seem more magic than currying sometimes.</strong> JavaScript isn’t a purely functional language, so such techniques aren’t as popular as they are in Haskell community, for instance. Simplicity conflicts with easiness here. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/javascript/">javascript</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/ui-components-that-abstract-mistakes/">
+        
+          UI Components that Abstract Mistakes
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/dental-health-and-habits/">
+        
+          Dental Health and Habits
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/expressive-javascript-conditionals/';
+    this.page.identifier = '/blog/expressive-javascript-conditionals/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

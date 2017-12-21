@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>Encadeamento de Métodos em JavaScript </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Popular em diversas bibliotecas JavaScript, o encadeamento de métodos (“method chaining”) é uma técnica usada para invocar diversos métodos em um mesm...">
+  <meta property="og:description" content="Popular em diversas bibliotecas JavaScript, o encadeamento de métodos (“method chaining”) é uma técnica usada para invocar diversos métodos em um mesm...">
+  <meta itemprop="description" content="Popular em diversas bibliotecas JavaScript, o encadeamento de métodos (“method chaining”) é uma técnica usada para invocar diversos métodos em um mesm...">
+  <meta name="twitter:description" content="Popular em diversas bibliotecas JavaScript, o encadeamento de métodos (“method chaining”) é uma técnica usada para invocar diversos métodos em um mesm...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-encadeamento-de-metodos-em-javascript" class="article">
+  <header class="header">
+    <a href="/blog/encadeamento-de-metodos-em-javascript/">
+      <time
+        class="article-date"
+        datetime="2016-08-06T19:11:32.000Z
+      ">
+        August 06, 2016
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      Encadeamento de Métodos em JavaScript
+    </h1>
+  </header>
+
+  <p>Popular em diversas bibliotecas JavaScript, o encadeamento de métodos (<em>“method chaining”</em>) é uma técnica usada para invocar diversos métodos em um mesmo objeto.</p>
+<p>Com o objetivo de <strong>melhorar a legibilidade do código</strong>, a técnica é vastamente utilizada na API da jQuery, o que certamente influenciou na popularidade da biblioteca.</p>
+<p>Se você já utilizou jQuery, o estilo do código abaixo pode ser familiar:</p>
+<pre><code class="language-js"><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#my-element'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'background'</span><span class="token punctuation">,</span> <span class="token string">'purple'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">height</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span><span class="token punctuation">{</span> height<span class="token punctuation">:</span> <span class="token number">250</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">'input'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">fadeIn</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">val</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<div class="note">
+<p>No exemplo acima, uma única declaração faz várias coisas. No entanto, uma boa prática com <em>method chaining</em> é <strong>fazer somente uma ação por declaração</strong>. 😉</p>
+</div>
+<p>Perceba que vários métodos são invocados no objeto <code>$('#my-element')</code>, sem a necessidade de repetí-lo. Já sem <em>Method Chaining</em>, é necessário fazer a referência diversas vezes:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> myElement <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'#my-element'</span><span class="token punctuation">)</span>
+myElement<span class="token punctuation">.</span><span class="token function">css</span><span class="token punctuation">(</span><span class="token string">'background'</span><span class="token punctuation">,</span> <span class="token string">'purple'</span><span class="token punctuation">)</span>
+myElement<span class="token punctuation">.</span><span class="token function">height</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+myElement<span class="token punctuation">.</span><span class="token function">fadeIn</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="exemplo">Exemplo <a class="title-anchor" href="#exemplo" aria-hidden="true">¶</a></h2>
+<p>Vamos criar um contador <code>Counter</code>:</p>
+<pre><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token punctuation">{</span>
+  constructor <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span>
+
+  increase <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span>
+
+  decrease <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">-</span><span class="token operator">=</span> <span class="token number">1</span>
+  <span class="token punctuation">}</span>
+
+  log <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Agora, vamos instanciar um contador e usar seus métodos:</p>
+<pre><code class="language-js"><span class="token keyword">const</span> counter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+counter<span class="token punctuation">.</span><span class="token function">increase</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+counter<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 1</span>
+counter<span class="token punctuation">.</span><span class="token function">decrease</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+counter<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 0</span>
+</code></pre>
+<p>Perceba que é necessário fazer várias declarações para interagir com a instância, o que prejudica a legibilidade do código.</p>
+<p>E se tentarmos usar <em>Method Chaining</em>…</p>
+<pre><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">increase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">// > TypeError: Cannot read property 'log' of undefined</span>
+</code></pre>
+<p>Perceba que <code>log()</code> está sendo executado em <code>new Counter().increase()</code>, que, por sua vez, está retornando <code>undefined</code>. Portanto, ainda não é possível interagir com <code>Counter</code> dessa forma.</p>
+<h2 id="como-encadear-metodos">Como Encadear Métodos <a class="title-anchor" href="#como-encadear-metodos" aria-hidden="true">¶</a></h2>
+<p>Para evitar a repetição do objeto, é necessário que seus métodos retornem o próprio objeto.</p>
+<p>Veja este exemplo com Promises:</p>
+<pre><code class="language-js"><span class="token function">getJSON</span><span class="token punctuation">(</span><span class="token string">'users.json'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span>parse<span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>response <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Olha o JSON!"</span><span class="token punctuation">,</span> response<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"Falhou!"</span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Isso só é possível pois os métodos <code>then()</code> and <code>catch()</code> sempre retornam outras promises. Assim, podemos dizer que as Promises são <strong>fluent APIs</strong>, tal como a jQuery.</p>
+<h3 id="quem-lembra-do-this">Quem Lembra do <code>this</code>? <a class="title-anchor" href="#quem-lembra-do-this" aria-hidden="true">¶</a></h3>
+<p>Para os métodos serem encadeados, será necessário retornar o contexto (<code>this</code>) em cada método.</p>
+<blockquote>
+<p>Em JavaScript, <code>this</code>  sempre se refere ao contexto de execução de função.</p>
+</blockquote>
+<p>No caso de um método, que é uma função de um objeto, refere-se ao próprio objeto.</p>
+<h4 id="exemplo-com-method-chaining-pattern">Exemplo com <em>Method Chaining Pattern</em> <a class="title-anchor" href="#exemplo-com-method-chaining-pattern" aria-hidden="true">¶</a></h4>
+<p>Para implementar o encadeamento de métodos na classe <code>Counter</code>, apenas retornamos seu contexto a cada método:</p>
+<pre><code class="language-js"><span class="token keyword">class</span> <span class="token class-name">Counter</span> <span class="token punctuation">{</span>
+  constructor <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span>
+  increase <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span> <span class="token comment" spellcheck="true">// Aqui!</span>
+  <span class="token punctuation">}</span>
+  decrease <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">-</span><span class="token operator">=</span> <span class="token number">1</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span> <span class="token comment" spellcheck="true">// Aqui!</span>
+  <span class="token punctuation">}</span>
+  log <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token keyword">this</span> <span class="token comment" spellcheck="true">// E aqui!</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Agora, ao executar <code>new Counter().increase()</code>, o retorno já não será mais <code>undefined</code>.</p>
+<p>…E, portanto, é possível fazer <em>method chaining</em>!</p>
+<pre><code class="language-js"><span class="token keyword">new</span> <span class="token class-name">Counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">increase</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 1</span>
+  <span class="token punctuation">.</span><span class="token function">decrease</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// => 0</span>
+</code></pre>
+<h2 id="conclusao">Conclusão <a class="title-anchor" href="#conclusao" aria-hidden="true">¶</a></h2>
+<p>No universo de APIs orientadas a objetos, o encadeamento de métodos é uma técnica incrível se o seu objetivo é tornar o código mais expressivo e fluente.</p>
+<p>No geral, <em>fluent APIs</em> são sim interessantes de se entender e implementar, e você pode ter certeza disso analisando o primeiro exemplo com jQuery do início deste artigo. É fantástico! Mas é importante entender que <strong>o encadeamento de métodos nem sempre tornará as coisas mais fáceis</strong> (debugar, por exemplo, se torna mais difícil), e, portanto, a maneira aparentemente “mágica” com que elas funcionam não deve ser sempre levada em consideração.</p>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/javascript/">javascript</a>, <a class="tag-link" href="/blog/tags/pt-br/">pt-BR</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/svg-images-as-react-components-with-webpack/">
+        
+          SVG Images as React Components with Webpack
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/i-m-tired-of-beautiful-looking-interfaces/">
+        
+          I&#39;m Tired of Beautiful-Looking User Interfaces
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/encadeamento-de-metodos-em-javascript/';
+    this.page.identifier = '/blog/encadeamento-de-metodos-em-javascript/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

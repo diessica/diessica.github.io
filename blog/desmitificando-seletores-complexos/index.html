@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>Desmitificando Seletores Complexos </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Se existem recursos no CSS que a total compreensão se restringe a uma parcela de desenvolvedores, esses são os combinadores filhos (&amp;gt;), irmãos adja...">
+  <meta property="og:description" content="Se existem recursos no CSS que a total compreensão se restringe a uma parcela de desenvolvedores, esses são os combinadores filhos (&amp;gt;), irmãos adja...">
+  <meta itemprop="description" content="Se existem recursos no CSS que a total compreensão se restringe a uma parcela de desenvolvedores, esses são os combinadores filhos (&amp;gt;), irmãos adja...">
+  <meta name="twitter:description" content="Se existem recursos no CSS que a total compreensão se restringe a uma parcela de desenvolvedores, esses são os combinadores filhos (&amp;gt;), irmãos adja...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-desmitificando-seletores-complexos" class="article">
+  <header class="header">
+    <a href="/blog/desmitificando-seletores-complexos/">
+      <time
+        class="article-date"
+        datetime="2013-11-28T02:00:00.000Z
+      ">
+        November 28, 2013
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      Desmitificando Seletores Complexos
+    </h1>
+  </header>
+
+  <p>Se existem recursos no CSS que a total compreensão se restringe a uma parcela de desenvolvedores, esses são os combinadores filhos (&gt;), irmãos adjacentes (+) e adjacentes gerais (~).</p>
+<p>Sem dúvidas, esses 3 combinadores são tão poderosíssimos quanto mal-explicados. É importante compreendê-los integralmente e há dois bons motivos para isso: o seletor descendente não dá conta de tudo e, o óbvio: o CSS está evoluindo.</p>
+<h2 id="x-y">X &gt; Y <a class="title-anchor" href="#x-y" aria-hidden="true">¶</a></h2>
+<blockquote>
+<p><q>Todo filho é necessariamente descendente, mas nem todo descendente é necessariamente filho.</q></p>
+<footer>— <cite>Eu, sobre família</cite></footer>
+</blockquote>
+<p>Para que Y seja alvo da seleção, não importa a posição; basta que seja descendente direto de X - isso é, filho. Em outras palavras, basta que esteja interno diretamente ao elemento pai - e seja somente descendente dele. Isso quer dizer que Y não será alvo caso esteja interno a um elemento Z, mesmo que este esteja interno a X. Por essa razão o combinador “&gt;” é também chamado de <strong>direto</strong>, pois não admite elementos internos indiretamente.</p>
+<h3 id="seletor-descendente-vs-seletor-filho">Seletor descendente vs. seletor filho <a class="title-anchor" href="#seletor-descendente-vs-seletor-filho" aria-hidden="true">¶</a></h3>
+<p>Lembrando da frase dita no início desse tópico, você já entende a diferença. Enquanto o <strong>descendente</strong> (X Y) herda as propriedades aos elementos direta e indiretamente internos (filhos, netos, bisnetos…), o alvo do <strong>combinador filho</strong> são os filhos unicamente diretos - sim, falar isso é redundante. O que faz todo sentido, afinal, um filho é tanto filho quanto descendente; e o neto, bisneto, trineto não é um filho, mas é descendente.</p>
+<h4 id="na-pratica">Na prática <a class="title-anchor" href="#na-pratica" aria-hidden="true">¶</a></h4>
+<p>Imaginemos um artigo e seus respectivos parágrafos. Dentro desse artigo, haverá uma seção de informações que não estará diretamente relacionada ao artigo. Como o que se quer destacar é a leitura do artigo, seus parágrafos terão mais ênfase de alguma forma.</p>
+<h5 id="html">HTML <a class="title-anchor" href="#html" aria-hidden="true">¶</a></h5>
+<pre><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>article</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Título do artigo<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Primeiro parágrafo<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Segundo parágrafo<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>aside</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">></span></span>Informações<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>aside</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Terceiro parágrafo<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>article</span><span class="token punctuation">></span></span>
+</code></pre>
+<h5 id="css">CSS <a class="title-anchor" href="#css" aria-hidden="true">¶</a></h5>
+<pre><code class="language-css"><span class="token selector">article > p</span> <span class="token punctuation">{</span>
+  <span class="token property">font-style</span><span class="token punctuation">:</span> italic<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Assim, somente os parágrafos que são filhos diretos do elemento <strong>article</strong> serão estilizados.</p>
+<h2 id="x-y-2">X + Y <a class="title-anchor" href="#x-y-2" aria-hidden="true">¶</a></h2>
+<p>Se para ser alvo do seletor filho a posição era irrelevante, para ser alvo de um <strong>seletor irmão adjacente</strong> sua posição é critério decisivo. O elemento Y deve ser o primeiro elemento após X, com ambos dentro de um mesmo elemento Z (pai). O nome, portanto, é bem autoexplicativo: são <strong>irmãos</strong> por possuírem o mesmo pai (no caso, Z) e <strong>adjacentes</strong> por estarem necessariamente próximos.</p>
+<h4 id="na-pratica-1">Na prática 1 <a class="title-anchor" href="#na-pratica-1" aria-hidden="true">¶</a></h4>
+<p>Supondo um artigo constituído por um título e 3 parágrafos. O primeiro parágrafo após o título servirá como uma introdução ao artigo e, portanto, deve ser destacado com um aumento no tamanho da fonte.</p>
+<h5 id="html-2">HTML <a class="title-anchor" href="#html-2" aria-hidden="true">¶</a></h5>
+<pre><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>article</span><span class="token punctuation">></span></span> <span class="token comment" spellcheck="true">&lt;!-- Z --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span>Título do artigo<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span> <span class="token comment" spellcheck="true">&lt;!-- X --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span> <span class="token comment" spellcheck="true">&lt;!-- Y --></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Debitis sint aperiam numquam nisi animi porro in reprehenderit!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Magnam atque placeat fuga sed eligendi maxime neque labore. Doloribus?<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>article</span><span class="token punctuation">></span></span>
+</code></pre>
+<h5 id="css-2">CSS <a class="title-anchor" href="#css-2" aria-hidden="true">¶</a></h5>
+<pre><code class="language-css"><span class="token selector">h1 + p</span> <span class="token punctuation">{</span>
+  <span class="token property">font-size</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="na-pratica-2">Na prática 2 <a class="title-anchor" href="#na-pratica-2" aria-hidden="true">¶</a></h4>
+<p>O <strong>checkbox hack</strong> funciona com o uso do combinador irmão adjacente.</p>
+<h4 id="html-3">HTML <a class="title-anchor" href="#html-3" aria-hidden="true">¶</a></h4>
+<pre><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>checkbox<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>hider<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>Hide me if you can!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>hider<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Esconder div<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+</code></pre>
+<h4 id="css-3">CSS <a class="title-anchor" href="#css-3" aria-hidden="true">¶</a></h4>
+<pre><code class="language-css"><span class="token selector">input[type="checkbox"]</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* Esconde o checkbox */</span>
+<span class="token punctuation">}</span>
+<span class="token selector">input:checked + div</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* Quando o checkbox for checado, a div será escondida */</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="x-y-3">X ~ Y <a class="title-anchor" href="#x-y-3" aria-hidden="true">¶</a></h2>
+<p>Seletor do <strong>CSS 3</strong>, o combinador <strong>adjacente geral</strong> tem uma definição bem semelhante ao irmão adjacente. Para que Y seja alvo, os elementos X e Y devem ser filhos de um mesmo elemento (irmãos) e X deve preceder Y, direta ou indiretamente - isso é, para que Y seja alvo, esse precedimento não precisa ser imediato.</p>
+<h4 id="na-pratica-2">Na prática <a class="title-anchor" href="#na-pratica-2" aria-hidden="true">¶</a></h4>
+<p>Esse combinador contorna algumas inflexibilidades do <strong>combinador irmão adjacente</strong>. Ainda com o exemplo do <strong>checkbox hack</strong>, podemos personalizar o elemento de forma não tão específica quanto à sua posição:</p>
+<h4 id="html-4">HTML <a class="title-anchor" href="#html-4" aria-hidden="true">¶</a></h4>
+<pre><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>checkbox<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>shower<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>shower<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Mostrar div<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>Hide me if you can!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span>Hide me too if you can!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+</code></pre>
+<h4 id="css-4">CSS <a class="title-anchor" href="#css-4" aria-hidden="true">¶</a></h4>
+<pre><code class="language-css"><span class="token selector">input[type="checkbox"], div</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* Esconde o checkbox e a div, por padrão */</span>
+<span class="token punctuation">}</span>
+<span class="token selector">input:checked ~ div</span> <span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* Quando o checkbox for checado, a div aparecerá */</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="conclusao">Conclusão <a class="title-anchor" href="#conclusao" aria-hidden="true">¶</a></h2>
+<p>As linguagens CSS e HTML foram documentadas para serem intuitivas: os elementos formam famílias com outros elementos pais, filhos, descendentes, irmãos… Isso fica claro no nome dos seletores, que têm papel importante na compreensão do combinador; afinal, caso o desenvolvedor entenda que irmãos tem o mesmo pai e que filhos são descendentes diretos do pai, ele poderá tirar um bom proveito do nome dos combinadores para compreender seus funcionamentos.</p>
+<blockquote>
+<p><q>[…] In both cases, non-element nodes (e.g. text between elements) are ignored when considering adjacency of elements.</q></p>
+<p>— <cite><span>W3C</span>, sobre <a href="http://www.w3.org/TR/css3-selectors/">Selectors Level 3</a></cite></p>
+</blockquote>
+<p>Há uma grande confusão - e com razão - entre os seletores irmãos adjacentes e irmãos gerais. Essa confusão se origina não só de suas classificações como <a href="http://www.w3.org/TR/css3-selectors/#sibling-combinators">seletores de combinação</a>, mas em seus comportamento e definição semelhantes. Tanto é verdade que o combinador adjacente geral (~) se comportará muitas vezes como um irmão adjacente (+), com a diferença de que o adjacente geral é menos exigente quanto à posição do elemento-alvo.</p>
+<p>O uso será, portanto, facultativo em diversas situações. E, nesse caso, a minha recomendação é dar prioridade ao combinador adjacente, visto que é um seletor do CSS 2.1 e, portanto, compatível com uma maior gama de browsers. 😃</p>
+<h2 id="referencias">Referências <a class="title-anchor" href="#referencias" aria-hidden="true">¶</a></h2>
+<ul>
+<li><strong>W3C</strong>. <a href="http://www.w3.org/TR/CSS21/selector.html">Selectors</a></li>
+<li><strong>W3C</strong>. <a href="http://www.w3.org/TR/css3-selectors/">Selectors Level 3</a>, 29 setembro de 2011</li>
+</ul>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/css/">css</a>, <a class="tag-link" href="/blog/tags/pt-br/">pt-BR</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/she/">
+        
+          She
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/multiline-sass-comments/">
+        
+          Multiline Sass Comments
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/desmitificando-seletores-complexos/';
+    this.page.identifier = '/blog/desmitificando-seletores-complexos/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

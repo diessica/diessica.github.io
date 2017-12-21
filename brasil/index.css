@@ -1,0 +1,121 @@
+body {
+  font-family: 'Fira Mono', monospace;
+  background-color: #fedf00;
+  text-shadow: 3px 3px 0 #fedf00;
+  font-size: 36px;
+  margin: 0;
+  font-weight: 500;
+  height: 100%;
+}
+
+#wallpaper {
+  z-index: 0;
+  border-bottom: 60px solid #fedf00;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: block;
+  height: 100vh;
+  box-sizing: border-box;
+  opacity: 0.55;
+  background-size: cover;
+  background-position: center;
+}
+
+.universe {
+  z-index: 10;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  letter-spacing: -2px;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .universe {
+      max-width: 600px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  }
+}
+
+.days-text {
+  font-size: 65px;
+  margin-top: -30px;
+}
+
+@media (min-width: 600px) {
+  .days-text {
+      font-size: 85px;
+  }
+}
+
+.hours-text {
+  font-size: 30px;
+  margin-top: -50px;
+  opacity: 0.6;
+}
+
+#hours {
+  display: inline-block;
+  padding: 2px 5px;
+  border-bottom: 4px solid #fedf00;
+  animation-delay: 500ms;
+  animation-duration: 2000ms;
+}
+
+.bottom-note {
+  z-index: 10;
+  font-size: 12px;
+  position: absolute;
+  bottom: 3px;
+  text-align: center;
+  opacity: 0.6;
+  padding: 0 10px;
+}
+
+@media (min-width: 580px) {
+  .bottom-note {
+    text-align: right;
+    right: 40px;
+    padding: 0;
+    max-width: 330px;
+  }
+}
+
+.me {
+  vertical-align: middle;
+  font-weight: bold;
+  background: #fedf00;
+  display: inline-block;
+  padding: 8px 10px;
+  text-align: right;
+  animation-iteration-count: infinite;
+  animation-duration: 800ms;
+  cursor: pointer;
+  box-shadow: 3px 4px 0 #000;
+}
+
+.pulse,
+.tada,
+.wobble {
+  animation-iteration-count: infinite;
+}
+
+.brazilian-flag {
+  animation-duration: 1s;
+  width: 100px;
+  box-shadow: 3px 3px 0 #fedf00;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 50px;
+  right: -10px;
+}
+
+#sentence {
+  vertical-align: middle;
+  font-size: 28px;
+  letter-spacing: -2px;
+}

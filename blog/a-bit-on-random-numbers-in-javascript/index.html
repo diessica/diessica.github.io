@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>A Bit on Random Numbers in JavaScript </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Math.random() is a JavaScript function that outputs a random number in the range [0, 1)  (from 0 up to 1, but doesn’t include 1). It’s the main source...">
+  <meta property="og:description" content="Math.random() is a JavaScript function that outputs a random number in the range [0, 1)  (from 0 up to 1, but doesn’t include 1). It’s the main source...">
+  <meta itemprop="description" content="Math.random() is a JavaScript function that outputs a random number in the range [0, 1)  (from 0 up to 1, but doesn’t include 1). It’s the main source...">
+  <meta name="twitter:description" content="Math.random() is a JavaScript function that outputs a random number in the range [0, 1)  (from 0 up to 1, but doesn’t include 1). It’s the main source...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-a-bit-on-random-numbers-in-javascript" class="article">
+  <header class="header">
+    <a href="/blog/a-bit-on-random-numbers-in-javascript/">
+      <time
+        class="article-date"
+        datetime="2016-11-15T18:50:00.000Z
+      ">
+        November 15, 2016
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      A Bit on Random Numbers in JavaScript
+    </h1>
+  </header>
+
+  <p><code>Math.random()</code> is a JavaScript function that outputs a random number in the range <code>[0, 1)</code>  (from 0 up to 1, but doesn’t include 1). It’s the main source of randomness in JavaScript.</p>
+<p>Although the output looks random, it’s actually not.</p>
+<h2 id="behind-the-scenes">Behind the Scenes <a class="title-anchor" href="#behind-the-scenes" aria-hidden="true">¶</a></h2>
+<p><code>Math.random()</code> uses a <strong>pseudo-random number generator</strong> (PRNG). Those algorithms work completely determined by a initial value called “seed”.</p>
+<blockquote>
+<p>Given a seed, the sequence of random numbers is deterministic.</p>
+</blockquote>
+<p>Every PRNG requires a seed, which <em>generally</em> is the current system time in milliseconds. Yeah, simple as that.</p>
+<p>Speaking of JavaScript language, the PRNG algorithm to deal with the seed is left up to implementors<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>. The algorithm powering V8’s <code>Math.random()</code> was very poor quality until last year (2015), and implementations between engines were pretty inconsistent.</p>
+<p>But the scenario has changed. Currently, JavaScript Engines such as SpiderMonkey, V8, Webkit and Chakra all implements <a href="https://en.wikipedia.org/wiki/Xorshift">Xorshift128+</a> algorithm<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>, faster than the previous one.</p>
+<h2 id="secure-randomness">Secure Randomness <a class="title-anchor" href="#secure-randomness" aria-hidden="true">¶</a></h2>
+<p>Although randomness was improved in most JavaScript engines, it isn’t trustworthy as seen that standard PRNGs are highly predictable after a certain period. That’s where Web Crypto API shines!</p>
+<p><a href="https://www.w3.org/TR/WebCryptoAPI/">Web Cryptography API</a> introduces <code>window.crypto.getRandomValues</code>, a cryptographically secure pseudo-random number generator (CSPNG), whose output is impossible or highly improbable to distinguish from a truly random one.</p>
+<h3 id="example">Example <a class="title-anchor" href="#example" aria-hidden="true">¶</a></h3>
+<pre><code class="language-js"><span class="token comment" spellcheck="true">// Array containing two 32-bit integers</span>
+<span class="token keyword">const</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Int32Array</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// Override array integers with random values</span>
+<span class="token keyword">const</span> random <span class="token operator">=</span> crypto<span class="token punctuation">.</span><span class="token function">getRandomValues</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> random<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>random<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p class="note">Of course it comes at a performance cost, so make sure you really need secure random numbers in your program.</a> 
+<h2 id="conclusion">Conclusion <a class="title-anchor" href="#conclusion" aria-hidden="true">¶</a></h2>
+<p>If you need apparent randomness–less and speed, you’d probably better off using <code>Math.random()</code>. If you need high-quality randomness, such as in cryptography applications, hashing or statistics, go for a CSPNG such as <code>window.crypto.getRandomValues</code> instead.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>See <a href="https://tc39.github.io/ecma262/#sec-math.random">ES2015 spec on <code>Math.random()</code></a>. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Sources: <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=322529">SpiderMonkey</a>, <a href="http://v8project.blogspot.com.br/2015/12/theres-mathrandom-and-then-theres.html">V8</a>, <a href="https://bugs.webkit.org/show_bug.cgi?id=151641">Webkit</a>, <a href="https://github.com/Microsoft/ChakraCore/pull/145">Chakra</a>. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/javascript/">javascript</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/horizontal-and-vertical-align-anything-with-css/">
+        
+          Horizontal and Vertical Align Anything with CSS
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/how-to-exclude-css-images-anything-from-unit-tests/">
+        
+          How to Exclude CSS, Images, Anything from Unit Tests
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/a-bit-on-random-numbers-in-javascript/';
+    this.page.identifier = '/blog/a-bit-on-random-numbers-in-javascript/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

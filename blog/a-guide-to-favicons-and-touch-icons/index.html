@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>A Guide to Favicons and Touch Icons </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Favicon is a simplified visual element associated with a particular website, page or event, which you once found only in your browser’s address bar or...">
+  <meta property="og:description" content="Favicon is a simplified visual element associated with a particular website, page or event, which you once found only in your browser’s address bar or...">
+  <meta itemprop="description" content="Favicon is a simplified visual element associated with a particular website, page or event, which you once found only in your browser’s address bar or...">
+  <meta name="twitter:description" content="Favicon is a simplified visual element associated with a particular website, page or event, which you once found only in your browser’s address bar or...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-a-guide-to-favicons-and-touch-icons" class="article">
+  <header class="header">
+    <a href="/blog/a-guide-to-favicons-and-touch-icons/">
+      <time
+        class="article-date"
+        datetime="2015-09-06T13:53:00.000Z
+      ">
+        September 06, 2015
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      A Guide to Favicons and Touch Icons
+    </h1>
+  </header>
+
+  <div class="summary">
+<p>Favicon is a simplified visual element associated with a particular website, page or event, which you once found only in your browser’s address bar or bookmarks. Nowadays, the scenario is different: <strong>they are everywhere</strong>.</p>
+</div>
+<h2 id="introduction">Introduction <a class="title-anchor" href="#introduction" aria-hidden="true">¶</a></h2>
+<p>Favicons provide a important visual indicator to people, and help them to easily associate your content (which can be a <em>website</em>, a <em>particular page</em> or even <em>events</em> like a new message) when browsing.</p>
+<p>Formerly, they, also called shortcut icons or bookmark icons, were just tiny pieces of art designed to help users to browse through their tabs or bookmarks. Today, shortcut icons can also provide an app-like link on operational systems (Windows 8, Android, OS X and so on), and should therefore be considered for achieving a pleasant cross-platform experience.</p>
+<p>This is a guide for using favicons today, the right way. At the end of this article, I’m sure you’ll be excited about SVG favicons.</p>
+<p>If you don’t want to understand such a thing, just <a href="#Bulletproof_favicons">jump to the bulletproof solutions</a>.</p>
+<h2 id="usage">Usage <a class="title-anchor" href="#usage" aria-hidden="true">¶</a></h2>
+<p>Favicons in different dimensions are needed, so devices and browsers can pick the picture that fits best based on <code>sizes</code> attribute (little exception for Mozilla Firefox, which always gets the last favicon declared and scale it if necessary).</p>
+<p>The images are not requested when not used. As said, browsers will get only what fits them best, therefore it’s important to provide the favicon in the required dimensions to avoid ugly scaled images.</p>
+<h3 id="general">General <a class="title-anchor" href="#general" aria-hidden="true">¶</a></h3>
+<pre><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- I'm lazy --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Browser tabs --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon-16x16.png<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>16x16<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Safari on OS X, IE10 Metro --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon-32x32.png<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>32x32<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Google TV --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon-96x96.png<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>96x96<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Chrome on Android --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon-192x192.png<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>192x192<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<div class="note">
+<p>No need for <code>type=&quot;image/png&quot;</code> when using HTML5.</p>
+</div>
+<p>You’ll need to provide a manifest in order to Chrome on Android’s icon to work properly. See <a href="https://gist.github.com/diessica/44ddce58c6094ce64d1d"><code>manifest.json</code> example</a>.</p>
+<pre><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>manifest<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>manifest.json<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<h4 id="lacking-of-png-support-on-ie-a-workaround">Lacking of PNG support on IE: a workaround <a class="title-anchor" href="#lacking-of-png-support-on-ie-a-workaround" aria-hidden="true">¶</a></h4>
+<p>Internet Explorer until version 11 and Safari don’t support PNG favicons. However, you can provide a fallback for IE up to 9:</p>
+<pre><code class="language-html"><span class="token comment" spellcheck="true">&lt;!--[if IE]> &lt;link rel="shortcut icon" href="favicon.ico"> &lt;![endif]--></span>
+</code></pre>
+<div class="note">
+<p>Notice the <code>shortcut</code>, which is a non-standard. Also, providing this fallback within a conditional comment is necessary; otherwise Chrome will use the ICO favicon, even if it supports PNG ones.</p>
+</div>
+<p><strong>I don’t recommend it</strong>, though, because IE 10 doesn’t support conditional comments (so it won’t get any favicon, as seen that it doesn’t support PNG too), and also because it encourages the use of the non-standard and confusing <code>shortcut</code>.</p>
+<p>Luckily, you can workaround everything just placing a <code>favicon.ico</code> in the root directory (the browser will look for it <em>automagically</em>). Then <code>link</code> only the PNG favicon and don’t worry.</p>
+<h3 id="web-clip-bookmarks">Web Clip bookmarks <a class="title-anchor" href="#web-clip-bookmarks" aria-hidden="true">¶</a></h3>
+<p>iOS users can add websites to their home screen – shortcuts called “Web Clip bookmarks”. The default icon is a thumbnail screenshot of the page, but developers can specify one instead.</p>
+<p>You will need to provide a lot of dimensions in order to support both new devices and older (iOS6 and prior), however.</p>
+<p>There’s a no-HTML way and a HTML way to provide those icons. It’s up to you.</p>
+<h4 id="no-html-touch-icon-file">No-HTML: Touch Icon file <a class="title-anchor" href="#no-html-touch-icon-file" aria-hidden="true">¶</a></h4>
+<p>Add a <code>apple-touch-icon-*.png</code> file, where <code>*</code> is the size to the root directory, instead. iOS Safari will look for the appropriate icon size, and if it doesn’t find any that fits best, it’ll use <code>apple-touch-icon.png</code>.</p>
+<h4 id="link-tags">Link tags <a class="title-anchor" href="#link-tags" aria-hidden="true">¶</a></h4>
+<p>You can reuse the image of another favicon specifying a <code>href</code> (not possible while using the solution above).</p>
+<pre><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- Non-retina iPhone pre iOS 7 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>57x57<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-57x57.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Non-retina iPad pre iOS 7 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>60x60<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-60x60.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>72x72<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-72x72.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Non-retina iPad iOS 7 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>76x76<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-76x76.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Retina iPhone pre iOS 7 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>114x114<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-114x114.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Retina iPhone iOS 7 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>120x120<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-120x120.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Retina iPad pre iOS 7 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>144x144<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-144x144.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Retina iPad iOS 7 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>152x152<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-152x152.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- iOS 8 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>180x180<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>apple-touch-icon-180x180.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<div class="note">
+<p>Using <code>apple-touch-icon-precomposed</code> instead of <code>apple-touch-icon</code>, which prevents iOS icons defaults like rounded corners and reflective shine, isn’t necessary, as seen that there isn’t <em>shiny effects</em>  on iOS 7 and up anymore.</p>
+</div>
+<h3 id="windows-tiles">Windows Tiles <a class="title-anchor" href="#windows-tiles" aria-hidden="true">¶</a></h3>
+<p>Tiles are icons that appear on the Start screen, linked as apps. By default, the image on the tile is the website’s favicon or a default IE11 logo.</p>
+<p class="note">To cover a wide range of devices, use an image 1.8 times the standard tile size so the image can be scaled up or down as needed.</p>
+<p>There’s a no-HTML way and a HTML way to provide those icons. It’s up to you, again.</p>
+<h4 id="no-html-browser-config-file">No-HTML: Browser config file <a class="title-anchor" href="#no-html-browser-config-file" aria-hidden="true">¶</a></h4>
+<p>Provide a <code>browserconfig.xml</code> file and save it at the root of your server. Internet Explorer 11 will automatically read the file when the user pins the website. See <a href="https://gist.github.com/diessica/73a4d53cd26b4d35f410"><code>browserconfig.xml</code> example</a>.</p>
+<h4 id="metadata-tags">Metadata tags <a class="title-anchor" href="#metadata-tags" aria-hidden="true">¶</a></h4>
+<p><code>msapplication-TileColor</code> is the background color of the tile, and <code>msapplication-TileImage</code> is the icon, which can be tiny (70 × 70px), square (150 × 150px), wide (310 × 150px) or large (310 × 310px).</p>
+<pre><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- Windows Tile --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>msapplication-TileColor<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>#000<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>msapplication-TileImage<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tile-icon.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Different Windows Tiles (optional) --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>msapplication-square70x70logo<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tile-icon_tiny.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>msapplication-square150x150logo<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tile-icon_square.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>msapplication-wide310x150logo<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tile-icon_wide.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>msapplication-square310x310logo<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>tile-icon_large.png<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<h2 id="bulletproof-favicons">Bulletproof favicons <a class="title-anchor" href="#bulletproof-favicons" aria-hidden="true">¶</a></h2>
+<ul>
+<li>For Touch Icons, add <code>apple-touch-icon.png</code> and <code>apple-touch-icon-*.png</code> files, where <code>*</code> is the size, to the root directory.</li>
+<li>For IE support, add a <code>favicon.ico</code> file with both 16 × 16px and 32 × 32px resources to the root directory.</li>
+<li>For Windows Tiles, add a <code>browserconfig.xml</code> to the root directory.</li>
+<li>For Chrome on Android icon, add a <code>manifest.json</code> to the root directory.</li>
+<li>Add the following HTML to <code>&lt;head&gt;</code>:</li>
+</ul>
+<pre><code class="language-html"><span class="token comment" spellcheck="true">&lt;!-- Chrome on Android --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon-192x192.png<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>192x192<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>manifest<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>manifest.json<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Google TV --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon-96x96.png<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>96x96<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Safari on OS X, IE10 Metro --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon-32x32.png<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>32x32<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+
+<span class="token comment" spellcheck="true">&lt;!-- Browser tabs --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon-16x16.png<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>16x16<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<div class="note">
+<p>Order matters here! Mozilla Firefox ignores <code>sizes</code> and always get the last favicon for the browser tabs. 😦</p>
+</div>
+<p>Or you can add all the favicons through <code>meta</code> and <code>link</code> tags.</p>
+<h2 id="favicon-as-svg">Favicon as SVG <a class="title-anchor" href="#favicon-as-svg" aria-hidden="true">¶</a></h2>
+<div class="note">
+<p>Not encouraged as an unique solution, as seen that isn’t <a href="http://caniuse.com/#feat=link-icon-svg">widely supported</a> yet.</p>
+</div>
+<p>I’m excited about this:</p>
+<pre><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>icon<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>favicon.svg<span class="token punctuation">"</span></span> <span class="token attr-name">sizes</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>any<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>image/svg+xml<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+</code></pre>
+<h2 id="final-words">Final words <a class="title-anchor" href="#final-words" aria-hidden="true">¶</a></h2>
+<p>I’m sure you are now excited about SVG support for favicons. Providing a lot of different images is quite boring.</p>
+<p>I encourage you to support favicons everywhere (or at least retina-ready ones), but unfortunately there’s no human-friendly way to do it nowadays. Use <a href="https://www.npmjs.com/package/favicons">favicons package</a> on npm or, if you are not comfortable with the command line, refer to <a href="http://realfavicongenerator.net">RealFaviconGenerator</a>.</p>
+<p>Don’t be lazy.</p>
+<h2 id="references">References <a class="title-anchor" href="#references" aria-hidden="true">¶</a></h2>
+<ul>
+<li><a href="https://developer.android.com/training/tv/index.html#favicons">Android Documentation</a></li>
+<li><a href="https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html">Apple Documentation</a></li>
+<li><a href="http://realfavicongenerator.net/faq">RealFaviconGenerator FAQ</a></li>
+<li><a href="https://mathiasbynens.be/notes/touch-icons">Everything you always wanted to know about touch icons</a></li>
+<li><a href="http://caniuse.com/#feat=link-icon-svg">SVG favicons support</a></li>
+<li><a href="http://caniuse.com/#feat=link-icon-png">PNG favicons support</a></li>
+<li><a href="http://iconhandbook.co.uk/reference/chart/">Icon handbook</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/dn455106.aspx">Creating custom tiles for IE11 websites</a></li>
+</ul>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/html/">html</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/do-you-help-people-out-there/">
+        
+          Do You Help People out There?
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/o-que-ha-de-errado-com-a-cultura-jquery/">
+        
+          O Que Há de Errado com a &quot;Cultura jQuery&quot;
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/a-guide-to-favicons-and-touch-icons/';
+    this.page.identifier = '/blog/a-guide-to-favicons-and-touch-icons/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

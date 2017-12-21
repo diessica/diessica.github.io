@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>Shared Variables Between JavaScript and CSS </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Because it assures consistency throughout the project and avoids magic numbers, sharing variables between JavaScript and CSS code may help you to keep...">
+  <meta property="og:description" content="Because it assures consistency throughout the project and avoids magic numbers, sharing variables between JavaScript and CSS code may help you to keep...">
+  <meta itemprop="description" content="Because it assures consistency throughout the project and avoids magic numbers, sharing variables between JavaScript and CSS code may help you to keep...">
+  <meta name="twitter:description" content="Because it assures consistency throughout the project and avoids magic numbers, sharing variables between JavaScript and CSS code may help you to keep...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-shared-variables-between-javascript-and-css" class="article">
+  <header class="header">
+    <a href="/blog/shared-variables-between-javascript-and-css/">
+      <time
+        class="article-date"
+        datetime="2017-01-15T17:00:00.000Z
+      ">
+        January 15, 2017
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      Shared Variables Between JavaScript and CSS
+    </h1>
+  </header>
+
+  <p>Because it assures consistency throughout the project and avoids <a href="https://en.m.wikipedia.org/wiki/Magic_number_(programming)">magic numbers</a>, sharing variables between JavaScript and CSS code may help you to keep your project codebase tidy and easier to reason about.</p>
+<div class="note">
+<p>For this article, when talking about CSS, the word “variable” may mean <a href="https://www.w3.org/TR/css-variables/">custom property</a> or <a href="https://www.w3.org/TR/2016/WD-mediaqueries-4-20160126/#custom-mq">custom media query</a>.</p>
+</div>
+<h2 id="getting-started">Getting Started <a class="title-anchor" href="#getting-started" aria-hidden="true">¶</a></h2>
+<p>First, create a <strong>object</strong> containing your variables and export it.</p>
+<p>My JS file containing the object will be called <code>variables.js</code>.</p>
+<pre><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  mainColor<span class="token punctuation">:</span> <span class="token string">'#000'</span><span class="token punctuation">,</span>
+  secondaryColor<span class="token punctuation">:</span> <span class="token string">'#fff000'</span><span class="token punctuation">,</span>
+  fullHeight<span class="token punctuation">:</span> <span class="token string">'100vh'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>No magic is needed to use those variables in your JS files – just <code>import</code> them when you need it. But in order to communicate those variables to your CSS files and use them with <code>var()</code>, some magic is needed.</p>
+<p>For this, I will be using <a href="http://cssnext.io/">cssnext</a>, a PostCSS plugin, and injecting that object into our stylesheets as <strong>custom properties</strong>.</p>
+<p>Webpack example:</p>
+<pre><code class="language-js"><span class="token keyword">import</span> cssNext <span class="token keyword">from</span> <span class="token string">'postcss-cssnext'</span>
+<span class="token keyword">import</span> myVars <span class="token keyword">from</span> <span class="token string">'./variables'</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Entry, loaders, plugins...</span>
+
+  postcss<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span>
+    <span class="token function">cssNext</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      features<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        customProperties<span class="token punctuation">:</span> <span class="token punctuation">{</span> variables<span class="token punctuation">:</span> myVars <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<div class="note">
+<p>Since I’m just using <a href="https://github.com/MoOx/postcss-cssnext">postcss-cssnext</a> API, it’s also possible to do it with the build tool of your choice. Check <a href="http://cssnext.io/usage/#features">docs on passing options to cssnext features</a>.</p>
+</div>
+<h2 id="getting-real-world-with-breakpoints">Getting Real-world with Breakpoints <a class="title-anchor" href="#getting-real-world-with-breakpoints" aria-hidden="true">¶</a></h2>
+<p>Sharing breakpoints between JavaScript and your stylesheets is a great real-world example.</p>
+<p>It’s time for <code>variables.js</code> to grow then!</p>
+<pre><code class="language-js"><span class="token keyword">export</span> <span class="token keyword">const</span> properties <span class="token operator">=</span> <span class="token punctuation">{</span>
+  mainColor<span class="token punctuation">:</span> <span class="token string">'#000'</span><span class="token punctuation">,</span>
+  secondaryColor<span class="token punctuation">:</span> <span class="token string">'#fff000'</span><span class="token punctuation">,</span>
+  fullHeight<span class="token punctuation">:</span> <span class="token string">'100vh'</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">const</span> mediaQueries <span class="token operator">=</span> <span class="token punctuation">{</span>
+  secondaryColor<span class="token punctuation">:</span> <span class="token string">'#fff000'</span><span class="token punctuation">,</span>
+  desktop<span class="token punctuation">:</span> <span class="token string">'(min-width: 1024px)'</span><span class="token punctuation">,</span>
+  tablet<span class="token punctuation">:</span> <span class="token string">'(min-width: 768px)'</span><span class="token punctuation">,</span>
+  mobile<span class="token punctuation">:</span> <span class="token string">'(min-width: 320px)'</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Because it’s not possible to create a media query containing a custom property, we need to inject <code>mediaQueries</code> as <strong>custom media queries</strong>.</p>
+<p>Let’s update the previous Webpack example in order to let cssnext to know about both custom media queries and properties.</p>
+<pre><code class="language-js"><span class="token keyword">import</span> cssNext <span class="token keyword">from</span> <span class="token string">'postcss-cssnext'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span>
+  properties<span class="token punctuation">,</span>
+  mediaQueries
+<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./variables'</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// Entry, loaders, plugins...</span>
+
+  postcss<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">[</span>
+    <span class="token function">cssNext</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+      features<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        customProperties<span class="token punctuation">:</span> <span class="token punctuation">{</span> variables<span class="token punctuation">:</span> properties <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        customMedia<span class="token punctuation">:</span> <span class="token punctuation">{</span> extensions<span class="token punctuation">:</span> mediaQueries <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Done! Some usage examples for CSS, JS and even React are provided below.</p>
+<h3 id="usage">Usage <a class="title-anchor" href="#usage" aria-hidden="true">¶</a></h3>
+<h4 id="css-example">CSS Example <a class="title-anchor" href="#css-example" aria-hidden="true">¶</a></h4>
+<p>Using custom properties and custom media queries according to settings from <code>variables.js</code> file.</p>
+<pre><code class="language-css"><span class="token selector">.banner</span> <span class="token punctuation">{</span>
+  <span class="token property">background</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--fullHeight<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* Custom property */</span>
+
+  <span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span>--desktop<span class="token punctuation">)</span></span> <span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* Custom media query */</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="javascript-example">JavaScript example <a class="title-anchor" href="#javascript-example" aria-hidden="true">¶</a></h4>
+<div class="note">
+<p>Example below uses <a href="http://wicky.nillia.ms/enquire.js/">enquire.js</a> library.</p>
+</div>
+<pre><code class="language-js"><span class="token keyword">import</span> enquire <span class="token keyword">from</span> <span class="token string">'enquire.js'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> customMedia <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./variables'</span>
+
+enquire
+  <span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>customMedia<span class="token punctuation">.</span>tablet<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Matched tablet resolution'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>customMedia<span class="token punctuation">.</span>mobile<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Matched mobile resolution'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h4 id="react-example">React example <a class="title-anchor" href="#react-example" aria-hidden="true">¶</a></h4>
+<p>Rendering a component only on desktop resolutions.</p>
+<div class="note">
+<p>Example below uses <a href="https://github.com/contra/react-responsive">react-responsive</a> library.</p>
+</div>
+<pre><code class="language-jsx"><span class="token keyword">import</span> MediaQuery <span class="token keyword">from</span> <span class="token string">'react-responsive'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> customMedia <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./variables'</span>
+
+<span class="token keyword">function</span> <span class="token function">DesktopOnlyComponent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/* (min-width: 1024px), according to variables.js */</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>MediaQuery</span> <span class="token attr-name">query</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span> customMedia<span class="token punctuation">.</span>desktop <span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>My desktop<span class="token operator">-</span>only component<span class="token operator">!</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>MediaQuery</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="final-words">Final Words <a class="title-anchor" href="#final-words" aria-hidden="true">¶</a></h2>
+<p>A non-consistent front-end codebase is just messy.</p>
+<p>I really use this technique on everyday work, and it’s a cheap way to significantly improve the quality of the front-end codebase.</p>
+<p>So, don’t underestimate it! Besides breakpoints, there are infinite possibilities for this, such as project colors, layout dimensions and other shared stuff that can easily get out of hand while working on a large project.</p>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/css/">css</a>, <a class="tag-link" href="/blog/tags/javascript/">javascript</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/how-to-exclude-css-images-anything-from-unit-tests/">
+        
+          How to Exclude CSS, Images, Anything from Unit Tests
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/var-that-this-nah/">
+        
+          var that = this? Nah.
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/shared-variables-between-javascript-and-css/';
+    this.page.identifier = '/blog/shared-variables-between-javascript-and-css/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+

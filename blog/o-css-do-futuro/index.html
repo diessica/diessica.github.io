@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link type="text/plain" rel="author" href="/humans.txt">
+  
+  <title>O CSS do Futuro </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Diéssica Gurskas">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <meta name="twitter:site" content="@diessicode">
+<!--   <meta property="twitter:image:src" content="https://diessi.ca/media/social.png">
+  <meta property="og:image" content="https://diessi.ca/media/social.png">
+  <meta itemprop="image" content="https://diessi.ca/media/social.png"/> -->
+
+  
+  <meta name="description" content="Já existem especificações garantindo funcionalidades incríveis para o CSS: variáveis; uma nova sintaxe para media queries; nesting; novos seletores, v...">
+  <meta property="og:description" content="Já existem especificações garantindo funcionalidades incríveis para o CSS: variáveis; uma nova sintaxe para media queries; nesting; novos seletores, v...">
+  <meta itemprop="description" content="Já existem especificações garantindo funcionalidades incríveis para o CSS: variáveis; uma nova sintaxe para media queries; nesting; novos seletores, v...">
+  <meta name="twitter:description" content="Já existem especificações garantindo funcionalidades incríveis para o CSS: variáveis; uma nova sintaxe para media queries; nesting; novos seletores, v...">
+  
+  <link rel="alternative" href="https://diessi.ca/feed.xml" type="application/atom+xml">
+  <link rel="manifest" href="https://diessi.ca/manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#b45f06">
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism-solarizedlight.min.css">
+</head>
+
+
+<body>
+
+<main>
+  <header>
+  <nav class="menu">
+    <a
+      href="/"
+      class="menu-item -home ">
+        diessi.ca
+    </a>
+
+    
+      <a
+        href="/blog"
+        class="menu-item -active"
+      >
+        Blog
+      </a>
+    
+      <a
+        href="/about"
+        class="menu-item"
+      >
+        About
+      </a>
+    
+  </nav>
+</header>
+
+
+  <div class="content">
+    <article id="post-o-css-do-futuro" class="article">
+  <header class="header">
+    <a href="/blog/o-css-do-futuro/">
+      <time
+        class="article-date"
+        datetime="2016-05-30T02:21:51.000Z
+      ">
+        May 29, 2016
+      </time>
+    </a>
+
+    <h1 class="article-title">
+      O CSS do Futuro
+    </h1>
+  </header>
+
+  <div class="summary">
+<p>Já existem <a href="https://drafts.csswg.org/">especificações</a> garantindo funcionalidades incríveis para o CSS: variáveis; uma nova sintaxe para <em>media queries</em>; <em>nesting</em>; novos seletores, valores e propriedades. E você pode usá-las, <strong>hoje</strong>.</p>
+</div>
+<p>Neste artigo, introduzo uma série de artigos relacionados às principais funcionalidades do CSS do futuro, além da ferramenta <a href="http://cssnext.io/">CSSNext</a>, que permite que você as utilize sem esperar o suporte do navegador.</p>
+<p>(A fins didáticos, é possível assemelhar o CSSNext ao <a href="https://babeljs.io/">Babel</a>, que, por sua vez, também permite desenvolver com o JavaScript do futuro ao transpilar o código JavaScript da próxima geração para um código suportado pelos navegadores atuais.)</p>
+<p>Ao final desse artigo, você saberá como desenvolver, hoje, com o CSS do futuro.</p>
+<hr>
+<h2 id="introducao-ao-postcss">Introdução ao PostCSS <a class="title-anchor" href="#introducao-ao-postcss" aria-hidden="true">¶</a></h2>
+<p>O CSSNext está relacionado com PostCSS. Mas o que é o PostCSS, afinal?</p>
+<p>O <a href="https://github.com/postcss/postcss">PostCSS</a> é apenas uma ferramenta que permite (pré ou pós) processar o CSS através de plugins em JavaScript. Um desses plugins é o CSSNext – assim como, por exemplo, o <a href="https://github.com/postcss/autoprefixer">Autoprefixer</a>, que trabalha na etapa de pós-processamento do CSS, adicionando <em>vendor prefixes</em>.</p>
+<p>A transformação de estilos é viabilizada de forma integralmente <strong>agnóstica</strong>: nada é dito sobre como e com o que será feito. Com o PostCSS, você é responsável pelo workflow de processamento do estilo. É possível utilizar <a href="https://github.com/jonathantneal/precss">funcionalidades pré-processadas</a> e/ou <a href="https://github.com/postcss/sugarss">sintaxe do Sass</a>, <a href="https://github.com/ben-eb/cssnano">minificar</a> e adicionar <em>vendor prefixes</em> – tudo de forma “plugável”!</p>
+<p>Como o PostCSS nunca é utilizado sozinho, o próximo passo é plugar o CSSNext a ele.</p>
+<h2 id="como-usar-o-cssnext">Como usar o CSSNext <a class="title-anchor" href="#como-usar-o-cssnext" aria-hidden="true">¶</a></h2>
+<p>Se você quiser apenas testar as funcionalidades dos novos módulos do CSS, você pode <a href="http://cssnext.io/playground">brincar com o CSSNext no navegador</a>.</p>
+<h3 id="no-workflow">No workflow <a class="title-anchor" href="#no-workflow" aria-hidden="true">¶</a></h3>
+<p>Em um ambiente de desenvolvimento, é necessário usá-lo com o PostCSS. A <a href="http://cssnext.io/setup/#usage">documentação do CSSNext</a> guia você para configurá-lo em seu workflow, seja com Webpack, Browserify, Gulp, Grunt, […], ou interface de linha de comando.</p>
+<p>Em todos os casos, a configuração se resume a passar um <em>array</em> com os processadores desejados para o PostCSS. Nesse caso, o processador a ser plugado é apenas o <a href="https://www.npmjs.com/package/postcss-cssnext">postcss-cssnext</a>:</p>
+<pre><code class="language-sh">$ npm install postcss-cssnext --save-dev
+</code></pre>
+<h2 id="principais-funcionalidades">Principais Funcionalidades <a class="title-anchor" href="#principais-funcionalidades" aria-hidden="true">¶</a></h2>
+<p>Aprofunde-se nas principais funcionalidades do CSS do Futuro através dos artigos abaixo. Abra o <a href="http://cssnext.io/playground/">playground do CSSNext</a> e bons estudos!</p>
+<ul>
+<li><a href="/blog/a-cascata-das-variaveis-do-css/">A Cascata das Variáveis do CSS</a></li>
+<li>Uma Nova Sintaxe Para Media Queries</li>
+<li>Seletores CSS em Um Novo Nível</li>
+<li>Manipulando Cores Com CSS</li>
+</ul>
+
+
+  
+    <p class="tags">
+      <b>Tags</b>:
+      <a class="tag-link" href="/blog/tags/css/">css</a>, <a class="tag-link" href="/blog/tags/pt-br/">pt-BR</a>
+    </p>
+  
+
+  <hr class="-long">
+
+  
+  <nav class="navigation">
+
+    
+      <a class="item -prev" href="/blog/mass-deleting-files-from-slack/">
+        
+          Mass Deleting Files from Slack
+        
+      </a>
+    
+
+    
+      <a class="item -next" href="/blog/a-cascata-das-variaveis-do-css/">
+        
+          A Cascata das Variáveis do CSS
+        
+      </a>
+    
+
+  </nav>
+  
+</article>
+
+
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <script>
+  var disqus_config = function () {
+    this.page.url = 'https://diessi.ca/blog/o-css-do-futuro/';
+    this.page.identifier = '/blog/o-css-do-futuro/';
+  };
+  </script>
+
+
+  </div>
+</main>
+
+
+<script>
+  var disqus_shortname = 'diessica';
+
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-76821596-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<script src="https://use.typekit.net/kgi4nfh.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+</body>
+</html>
+
