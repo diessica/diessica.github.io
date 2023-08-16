@@ -1,0 +1,75 @@
+==================================================================
+https://keybase.io/diessica
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://diessi.ca
+  * I am diessica (https://keybase.io/diessica) on keybase.
+  * I have a public key with fingerprint 4302 C586 30C5 2251 35E4  07A4 449A A724 D631 01B2
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120c2ee894d3a532403315abd1286e80ee3245566c9405b35f3078835f66d6bd0600a",
+      "fingerprint": "4302c58630c5225135e407a4449aa724d63101b2",
+      "host": "keybase.io",
+      "key_id": "449aa724d63101b2",
+      "kid": "01018fbb8563b64f4402fda4c9a56f78869299b72a4407dd248da57eb55d6925a35a0a",
+      "uid": "80c2b902f6438ee3657715451871c819",
+      "username": "diessica"
+    },
+    "service": {
+      "hostname": "diessi.ca",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1537532089,
+  "expire_in": 157680000,
+  "prev": "95359140301f30e8c90770914e96635bbd95cb78bbdddb134083e30667dfa6c1",
+  "seqno": 12,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.77
+Comment: https://keybase.io/crypto
+
+yMNqAnicbVJtUFRVGF6EdFgiMTAl+oAbLtUweO7HOffeNRgto7XBicKSEKH7cRZu
+wO66u4CAFMFMSfFhBKMhGiAOTskIC0RkRiwoQ9pAOSLWEA3gyqhTjhSZY2PnMvmj
+mc6fc85znvd5n/d9z3Cwv8Hot7mxPXqC9vP4nR1syDfsaPulv4SS7WoRZS6hcvDS
+hnNV7HJn5mgqZaYAzQCFwVgQOZWVIMtwgGVpKMkqzQgICwBjgkGIkCJyAMostLKA
+FwSyI6QiWQUIAImKpayaLQs7HU7N5iayHAsYBQqIBQpkGEizEHOAlziOEyWJZzgV
+sTSgZYYEZttdegQxJ0suHKfZCUYumUv2/od/zzegBassCxCxMuKsHAcYqypxiihB
+ZCUGkciIoswzJCfgVZXhBFWCPJYhVMkTlFgoLfnOX5ITSBNkkUggjhVIyQjyPA05
+SAs8rQi0qBNd2GmT8jBhqxp2uTRFokpjKYIWaArWG6tX8h9GnKJncDjtbrtizyVw
+ttvtcJn1MHeRQ+cVYjnzX4VMWbOppIkkogA7XZrdRplpwlTcmi5JQ5Yn4wGCGEvh
+3Q7NiTM1nQF5JACy9Dy4gEiKkIUiTcYIaDIqLCgi4HlAECwixEJZVkWoyLxADqoq
+0ywHBBazACFetUpIoSm9pl02O9FmiE8pi2i6tCyb5M53YqrUO5geYPAzGpbft0z/
+XQZjYMi9P7cpbeXd10xPUlOJ7M6X0ZzDKuR8MljYmTbRXhNQVPpYbfTC1FMR/ft9
+ZysivftOj8SMmR+vsFjuH2I+77llCtucimP6Vvkvjn31gKdt/Ofuvrc/rHm1abYh
+4JszdsvMTOSj246FKRGtXZVtizfWRf4d5b5WL09F7blZZWru2edsWJNqA8sPxIfP
+H84oX1EX/oG5bNOLp0IXa3qvzo9Om/fYZs99Gz139NKl7dcTfeGPPON/OHDhN+6L
+zEVDrGHibkXr8bKxopzU4e0nSs7d7H33jfJXOioDa7s6Lkgpd0YO5K3N9VXnGoYH
+G93rx4wZzbDr1MD+qihTYuSAJez1o9lx3ts7j0e4R9NMGbOr+6ON7X1bt/zUUtq4
+IyXgZPVFPHrEkpLv+DQr4dC6pqDP4v5YnVD3+3Mjbe8EN4QdrFzono6cMjXKxlFP
+yY/jH3188mIzZ/1OzO59KTg5uS7/0KJ7Rdn56yL0DXWWdbzXWvy8OFn7q8t6Z/72
+KvEhYauB9Wz4emHt1Rso1DZXdWXgzxy4N967e3JXQnfY+72pz04e63ki1JN8q1O7
+4mssMBkdnrfe/EE0FCSJ4wdDQpo2/uXtbCu8Nj/ul/Rluq9mZkNxYOlkkpeq4IPM
+l20PWloy1mysX7klt379GZweH1LtudySmtcaM70Q9HTMhaETxS+cfrjl+2Urj5wv
+74lHe7O5bf8A+5q5NQ==
+=mYMo
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/diessica
+
+==================================================================

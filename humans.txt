@@ -1,0 +1,47 @@
+heyo, nice to meet you! 
+
+this website is powered by Zola (getzola.org), Tailwind (tailwindcss.com) and Markdown. 
+
+name: Diéssica Gurskas
+email: hey at this domain
+twitter: @diessicode
+location: Berlin, DE
+humans.txt last updated: 01-07-2023
+
+tschüß!
+𝔡𝔦𝔢𝔰𝔰
+
+
+                         ..^~7JGPP#########&&&#################&&&&&&&&&&G7:.......:::::::::::::::^^
+                         .:~??JPBB######BBBB####BBBBBBBBGGGBB###&&&&&&&&&&G7:......:::::::::::::::^^
+                         ::!JP#B###BBBGGGPPPGGGGGP5555555PPPPGB##&&&&&&&&&&G?!^:..::::::::::::::::^^
+                         ^!!7P###GP55YYYJJYYYYYYYJJJ????JJJYY5PGB##&&&&&&&&BJ?7~^:::::::::::::::::^^
+                       .^J5J!JBBPYJJJJJJJJ????????????????7777?JYPGB&&&&&&&GJJ7~7^::::::::::::::::^^
+:..                   .~YPGPYJPPYJJJJJJJJJ????????7?????????7777??YPB#&&&&#GGJ?^!~::::::::::::::^^^^
+7!^:..              ..^7YGBGGGBGY?JJJJJJJJ???????777????????7777777JPB#&&&&BG5J!~~:::::::::^^^^^^^^^
+7!^::.           ....^7JPGGBB#BY???JJJJJJ?????????77777777777777777?YG#&&&&&##PJ7~:::::::^^^^^^^^^^~
+!~^:.               .~?JY5GBBBP!!?????????????7???77777777777777777?JPB&&&&#BB5J7^:::::::::^^^^^^~~~
+~~::.         ...:::^!???JPGGPJ^:!?JJJJJJJ?????????????JJJJJYYYYJ???JPB#&&#BG5J?!^^::::^^^:::^^^^^^^
+~^::.      ~?JJJJJJJJ?????JJ??7~~!?J5PPPP5YYJJJ???JJY5PGBBBBBGP55YJY5GB#&#BG57!~!?YJ?7!JJ?7!7~^^^^^^
+~^:..     !555YYYJJJJJJYYJJJJ??????YPGBGGGPY?!7?JJJ5PGBBGGGBBBPPPPPPPPG##BBG?!^^^~?Y5555YYJJJJ7!~^^^
+~^:..   .!YYYYYYYYYYYYYYYYYYY5YJJ5PGB###BBBBP5PGGGBB###BBBBBBBBB##&&&#BGP55J!^::::::~J5PPP55YYJJJ?7!
+~^:.    !Y55YY555YYYYYJ?7!~755Y!JGG5GB########GPY5GB&&&&&&&&&&&&&&&&&GPJ?!^~~^^::::~!!~~7J5PPP55PP5Y
+~^:.  .~Y55555P555YYJ!:...::~YJ!!5B###########B5JJ5G#&##&&&&&&&&&&&&GYJ!^::^^^^...:^:....:^!JYPGGGPP
+~^:. .~J555555555Y!:.    .:..~?7^?PB#########BPJ?7?5G#&&&&&&&&&#&&#BY7!^:::::::.......:::::::^~?5PGG
+^::. :J55YY55555Y!.      ..   .~7?5G########BPYJ?777YPB#&&&&&&&&&BP?7~^^^^::::::::::::^:::::::::^!J5
+^:...?55YYYYY555J~.        .:^~!?JYPGBBBBGP55YJ??7777JY5PGBBBBGPY?7~~~^::::::::::::^::::::::::::::^~
+^:..:Y5YYYYYYYYYYY?~.  ..^~7????77777??JJJJJJJJ?777777?JJJJJJJ?77!!~^:^::::::::::::::::::::::^^~7?Y5
+~::.^55YYYJJJYYYYYJJ?777???????7!!~^:~7????JJJJJ??77???JJJJJJ??7!!~^:::::::::::::::::^^::::^^~J5PGPP
+~::.75YYJJJJJYYJJJJ???????77??JYJJY7^:!???JJJJYYJJJ??????JJJ??77!~:::::::::::::::::::^^^^^^~?5PPPGPP
+^:.:?YYJJJJJJJJJ????777777J5GGB####J7^:!JJJYYYYYYJJJJJJJYYYJJ?7~:::::::::::::::::::::~^^^^75PPPP5YJY
+^:.~JYJ??????JJ??7777777JPB#BB#####G77!^!YYY55PPP55P5555Y55YJ777^:...:::::::::::::::.^!~~JPGPP5Y?JPG
+^::7YYJ????????77777777JB#BBBB######G?77!7JYYY5555555YYJJJJJ7~7##G?7~:.:::::::::::::..~?5PPP5YY5PGPP
+^:^JYJJ????????7!!!!775BBBBBBBBBBB###BY???7?JJJJJJJJJJJ????7!!P&&&&&&P7^::::::::::::.:?GGGG55PGGPP5Y
+^^?YJJJ????777777777JGBBBBBBBBBBBBBB###GY??7??JJJJJJJJJJ??7!7G&&&&&&&&&B5J!~^^::::::::!YPYPPGP5J?7!~
+^!JJJ??????????77?YPBBBBBBGGBBBBBBBBB####B5J?77??????????77YB&&&&&&&&&&&&&&##BGY7~:.::..7J???!^^^~~~
+7JJJJ???????????5GBBBBBBBBGBBBBBBBBBBBB#####BPYJ???????JYPB&&&&&&&&&&&&&&&&&&&&&&#G?:...:?7:^!!!!!!!
+JJJJJ??????????PBGGBBBBBBBBBBBBBBBBBBBBBB####&&##BBGGBB#&&&&&&&&&&&&&&&&&&&&&&&&&@@&5^...^7777?7777!
+JJJJ??????777?PBGGGGGGBBBGBBBBBBBBBBBBBBB#######&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&@@@@@&J::::!7!!!!7!!!
+JJJJ??????77?5BGGGGGGGGGGGGBGBBBBBBBBBBBBBB#########&&&&&&&&&&&&&&&&&&&&&&@@@@@@@@@@&B7^~!7??!~~^~~~
+JJJ???77777?JGBBGGGGGGGGGGGGGGGGGGBBBBBBBBBBB##########&&&&&&&&&&&&&&&&&&&@@@@@@@@@&&&P~!7!?5Y?7!?J7
+JJJ???77777?5GBBBBGGGGGGGGGGGGGGGGGBBBBBBBBBBB##########&&&&&&&&&&&&&&&&&&@@@@@@@@&&@&&57J7!?5P5JJ??

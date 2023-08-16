@@ -1,0 +1,274 @@
+<!doctype html><html class="scroll-smooth md:border-[10px] md:border-solid min-h-screen md:border-purple" lang=en><head><meta charset=utf-8><link href="/css/style.css?h=012c5f95ea1463230821" rel=stylesheet><meta content="width=device-width,initial-scale=1" name=viewport><title>Telegram Bot for  GitHub Actions | Diéssica Gurskas</title><body class="text-gray-700 font-body antialiased"><div class="bg-blog px-3 md:px-10 min-h-[calc(100vh-16px)] lg:min-h-[calc(100vh-20px)]"><div class="py-12 mb-4 text-center space-x-8 text-md md:text-lg relative z-20"><a class="no-underline font-extrabold hover:border-green hover:border-b-2" href=/>diessi.ca</a><a class="no-underline hover:border-green hover:border-b-2 border-green border-b-2" href=/blog/>Blog</a></div><article class="container mx-auto w-full xl:w-1/2 pb-8"><header class="xl:-mx-56 text-center mb-8 md:mb-12"><div class="uppercase tracking-widest opacity-60 mb-4 text-xs">April 01, 2020</div><h1 class="font-extrabold font-display text-3xl md:text-5xl xl:text-6xl text-slate-900">Telegram Bot for GitHub Actions</h1></header><div class="prose prose-sm md:prose 2xl:prose-lg prose-hr:text-red prose-hr:w-48 prose-hr:h-0.5 prose-hr:mx-auto prose-hr:my-4 prose-hr:bg-black prose-hr:opacity-20 prose-hr:border-0 prose-hr:rounded prose-hr:md:my-10 prose-pre:rounded-none prose-blockquote:border-0 prose-blockquote:text-center prose-blockquote:text-xl prose-blockquote:text-current tracking-tight mx-auto prose-headings:text-slate-800 prose-headings:w-max prose-headings:font-display prose-headings:font-extrabold"><h2 id=telegram>Telegram</h2><p><a href=https://telegram.org/>Telegram</a> is a cloud-based mobile and desktop messaging app with a focus on security and speed. It is free to use and extensively hackable. It also has a good bot support system. The API is also easy to implement and has many wrappers for building bots with the API.<h2 id=github-actions>GitHub Actions</h2><p><a href=https://github.com/features/actions>GitHub Actions</a> is a CI/CD runtime for your GitHub repository. You can run almost anything from scripts to docker containers. You can build, test and deploy your code with GitHub Actions. All these actions are called workflows and workflows differ in the job they’re doing. These maybe test workflows, build ones or deployment ones. You can find all the actions on GitHub in the <a href="https://github.com/marketplace?type=actions">marketplace</a><h2 id=building-the-bot>Building the Bot</h2><h3 id=prerequisites>Prerequisites</h3><ul><li>Basic JavaScript Knowledge<li>Basic GitHub Knowledge<li>Telegram Account</ul><blockquote><p>There are templates for building actions. Here we’re gonna start from scratch</blockquote><h3 id=environment-setup>Environment Setup</h3><ul><li><strong>Node</strong>, You can download node from their <a href=https://nodejs.org/en/download/>website</a><li>NPM comes with node, so you don’t have to worry about it.<li>Initialize the Project</ul><pre class=language-sh data-lang=sh style=background:#282a36;color:#f8f8f2><code class=language-sh data-lang=sh><span style=color:#50fa7b>$</span><span> git init </span><span style=color:#6272a4>## initialize a new git repository for version management
+</span><span style=color:#50fa7b>---
+</span><span style=color:#50fa7b>$</span><span> npm init
+</span></code></pre><ul><li><strong>dotenv</strong>, Dotenv can be downloaded via</ul><pre class=language-sh data-lang=sh style=background:#282a36;color:#f8f8f2><code class=language-sh data-lang=sh><span style=color:#50fa7b>$</span><span> npm i dotenv
+</span><span style=color:#50fa7b>---
+</span><span style=color:#50fa7b>$</span><span> yarn add dotenv
+</span></code></pre><ul><li><strong>node-telegram-bot-api</strong>, node-telegram-bot-api is a simple wrapper for building telegram bots. You can download it via</ul><pre class=language-sh data-lang=sh style=background:#282a36;color:#f8f8f2><code class=language-sh data-lang=sh><span style=color:#50fa7b>$</span><span> npm i node-telegram-bot-api
+</span><span style=color:#50fa7b>---
+</span><span style=color:#50fa7b>$</span><span> yarn add node-telegram-bot-api
+</span></code></pre><ul><li><strong>@zeit/ncc</strong>, NCC is a Simple CLI for compiling a Node.js module into a single file, together with all its dependencies, GCC-style. It’s a dev dependency and can be downloaded</ul><pre class=language-sh data-lang=sh style=background:#282a36;color:#f8f8f2><code class=language-sh data-lang=sh><span style=color:#50fa7b>yarn</span><span> add</span><span style=font-style:italic;color:#ffb86c> --dev</span><span> @zeit/ncc
+</span><span style=color:#50fa7b>---
+</span><span style=color:#50fa7b>npm</span><span> i</span><span style=font-style:italic;color:#ffb86c> -D</span><span> @zeit/ncc
+</span></code></pre><h4 id=folder-structure>Folder Structure</h4><p>The <code>dist</code> folder will be automatically created. <code>action.yml</code> will be made<pre style=background:#282a36;color:#f8f8f2><code><span>.
+</span><span>├── dist
+</span><span>│   └── index.js
+</span><span>├── index.js
+</span><span>├── action.yml
+</span><span>├── README.md
+</span><span>└── package.json
+</span><span>
+</span></code></pre><ul><li><code>index.js</code> is the file we’re defining the bot<li><code>action.yml</code> is the file we’ll define the action and it’s behaviours</ul><h2 id=making-the-bot>Making the Bot</h2><p>We need to get an API bot token from telegram. For that Go to Telegram and Search for <code>Botfather</code>. It’s a bot. <img alt src=/blog/extra/tg-gh/bfather.png> Create a new bot with the <code>/newbot</code> command and get the API key. We’ll need that, also talk to <code>jsondump</code> bot and get your chat id. The output may be like this, so<pre class=language-json data-lang=json style=background:#282a36;color:#f8f8f2><code class=language-json data-lang=json><span>{
+</span><span>  </span><span style=color:#eee>"</span><span style=color:#f1fa8c>update_id</span><span style=color:#eee>"</span><span>: </span><span style=color:#bd93f9>143943779</span><span>,
+</span><span>  </span><span style=color:#eee>"</span><span style=color:#f1fa8c>message</span><span style=color:#eee>"</span><span>: {
+</span><span>    </span><span style=color:#eee>"</span><span style=color:#f1fa8c>message_id</span><span style=color:#eee>"</span><span>: </span><span style=color:#bd93f9>181575</span><span>,
+</span><span>    </span><span style=color:#eee>"</span><span style=color:#f1fa8c>from</span><span style=color:#eee>"</span><span>: {
+</span><span>      </span><span style=color:#eee>"</span><span style=color:#f1fa8c>id</span><span style=color:#eee>"</span><span>: </span><span style=color:#bd93f9>123456 </span><span style=color:#6272a4>// this is what we need
+</span><span>     </span><span style=background:#ff79c6;color:#f8f8f0> </span><span style=color:#eee>"</span><span style=color:#f1fa8c>is_bot</span><span style=color:#eee>"</span><span>: </span><span style=color:#bd93f9>false</span><span>,
+</span><span>      </span><span style=color:#eee>"</span><span style=color:#f1fa8c>first_name</span><span style=color:#eee>"</span><span>: </span><span style=color:#eee>"</span><span style=color:#f1fa8c>Tg Name</span><span style=color:#eee>"</span><span>,
+</span><span>      </span><span style=color:#eee>"</span><span style=color:#f1fa8c>username</span><span style=color:#eee>"</span><span>: </span><span style=color:#eee>"</span><span style=color:#f1fa8c>TG Username</span><span style=color:#eee>"</span><span>,
+</span><span>      </span><span style=color:#eee>"</span><span style=color:#f1fa8c>language_code</span><span style=color:#eee>"</span><span>: </span><span style=color:#eee>"</span><span style=color:#f1fa8c>en</span><span style=color:#eee>"
+</span><span>    },
+</span><span>    </span><span style=color:#eee>"</span><span style=color:#f1fa8c>chat</span><span style=color:#eee>"</span><span>: {
+</span><span>      </span><span style=color:#eee>"</span><span style=color:#f1fa8c>id</span><span style=color:#eee>"</span><span>: </span><span style=color:#bd93f9>123456</span><span>,
+</span><span>      </span><span style=color:#eee>"</span><span style=color:#f1fa8c>first_name</span><span style=color:#eee>"</span><span>: </span><span style=color:#eee>"</span><span style=color:#f1fa8c>Tg Name</span><span style=color:#eee>"</span><span>,
+</span><span>      </span><span style=color:#eee>"</span><span style=color:#f1fa8c>username</span><span style=color:#eee>"</span><span>: </span><span style=color:#eee>"</span><span style=color:#f1fa8c>TG Username</span><span style=color:#eee>"</span><span>,
+</span><span>      </span><span style=color:#eee>"</span><span style=color:#f1fa8c>type</span><span style=color:#eee>"</span><span>: </span><span style=color:#eee>"</span><span style=color:#f1fa8c>private</span><span style=color:#eee>"
+</span><span>    },
+</span><span>    </span><span style=color:#eee>"</span><span style=color:#f1fa8c>date</span><span style=color:#eee>"</span><span>: </span><span style=color:#bd93f9>1584119424</span><span>,
+</span><span>    </span><span style=color:#eee>"</span><span style=color:#f1fa8c>text</span><span style=color:#eee>"</span><span>: </span><span style=color:#eee>"</span><span style=color:#f1fa8c>message</span><span style=color:#eee>"
+</span><span>  }
+</span><span>}
+</span></code></pre><p>This will be needed for further use and We need to add it to the repo secrets which can be found in the repo settings. Be careful to add it as <code>token</code> and <code>chat</code> like as shown below <img alt src=/blog/extra/tg-gh/scr.png><h3 id=writing-the-action-and-building-the-bot>Writing the Action and Building the Bot</h3><p>Fire up the terminal/cmd and make a new folder. Install the dependencies. Run the following command<pre class=language-sh data-lang=sh style=background:#282a36;color:#f8f8f2><code class=language-sh data-lang=sh><span style=color:#50fa7b>$</span><span> touch index.js action.yml
+</span></code></pre><p>Open your favourite text editor within the folder or with the file. We’ll define the bot in <code>index.js</code><pre class=language-javaScript data-lang=javaScript style=background:#282a36;color:#f8f8f2><code class=language-javaScript data-lang=javaScript><span style=color:#8be9fd>require</span><span>(</span><span style=color:#f1fa8c>"dotenv"</span><span>)</span><span style=color:#ff79c6>.</span><span>config
+</span><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#fff>Bot </span><span style=color:#ff79c6>= </span><span style=color:#8be9fd>require</span><span>(</span><span style=color:#f1fa8c>'node-telegram-bot-api'</span><span>);
+</span><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#fff>{
+</span><span>    INPUT_STATUS: </span><span style=color:#fff>ipstatus</span><span>,
+</span><span>    INPUT_TOKEN: </span><span style=color:#fff>tgtoken</span><span>,</span><span style=color:#6272a4>//Telegram api token
+</span><span>    INPUT_CHAT: </span><span style=color:#fff>chatid</span><span>,</span><span style=color:#6272a4>// Telegram Chat ID
+</span><span>    INPUT_IU_TITLE: </span><span style=color:#fff>ititle</span><span>,</span><span style=color:#6272a4>// Issue title
+</span><span>    INPUT_IU_NUM: </span><span style=color:#fff>inum</span><span>,</span><span style=color:#6272a4>// Issue Number
+</span><span>    INPUT_IU_ACTOR: </span><span style=color:#fff>iactor</span><span>,</span><span style=color:#6272a4>// Issue made by
+</span><span>    INPUT_IU_BODY: </span><span style=color:#fff>ibody</span><span>,</span><span style=color:#6272a4>// Issue Body
+</span><span>    INPUT_PR_NUM: </span><span style=color:#fff>pnum</span><span>,</span><span style=color:#6272a4>// PR Number
+</span><span>    INPUT_PR_STATE: </span><span style=color:#fff>prstate</span><span>,</span><span style=color:#6272a4>// PR Opened, reponed or closed
+</span><span>    INPUT_PR_TITLE: </span><span style=color:#fff>ptitle</span><span>,</span><span style=color:#6272a4>// PR Title
+</span><span>    INPUT_PR_BODY: </span><span style=color:#fff>pbody</span><span>,</span><span style=color:#6272a4>// Body of the PR
+</span><span>    GITHUB_EVENT_NAME: </span><span style=color:#fff>ghevent</span><span>,</span><span style=color:#6272a4>// Name of the trigger event
+</span><span>    GITHUB_REPOSITORY: </span><span style=color:#fff>repo</span><span>,</span><span style=color:#6272a4>// Repository the trigger was made from
+</span><span>    GITHUB_ACTOR: </span><span style=color:#fff>ghactor</span><span>,</span><span style=color:#6272a4>// User who triggered the action
+</span><span>    GITHUB_SHA: </span><span style=color:#fff>sha</span><span>,</span><span style=color:#6272a4>// Commit ID
+</span><span>    GITHUB_WORKFLOW: </span><span style=color:#fff>ghwrkflw</span><span style=color:#6272a4>// Workflow Name
+</span><span style=color:#fff>} </span><span style=color:#ff79c6>= </span><span style=color:#6be5fd>process</span><span style=color:#ff79c6>.</span><span style=color:#6be5fd>env</span><span>;
+</span><span>
+</span><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#fff>bot </span><span style=color:#ff79c6>= new </span><span>Bot(</span><span style=color:#fff>tgtoken</span><span>)
+</span></code></pre><p>First, we’re defining the dotenv for config and initializing Telegram Bot. Here we’re defining the alias variables for the <em>environment variables</em>. You might notice an <code>INPUT_</code> for almost every environment variable, this is because GitHub Actions pass the env variable with an INPUT prefix. Other env variables are action’s default environment variables. Then we initialized the bot with the API token.<p>GitHub actions could be triggered with Issues, Pull Request or Pushes. You can find the trigger events <a href=https://help.github.com/en/actions/reference/events-that-trigger-workflows>here</a>. Here we’re gonna get a message from the bot when an <em>Issue</em> or <em>Pull Request</em> or a <em>Push</em> event has happened.<pre class=language-js data-lang=js style=background:#282a36;color:#f8f8f2><code class=language-js data-lang=js><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#50fa7b>evresp </span><span style=color:#ff79c6>= </span><span>(</span><span style=font-style:italic;color:#ffb86c>gevent</span><span>) </span><span style=font-style:italic;color:#8be9fd>=> </span><span>{
+</span><span>  </span><span style=color:#ff79c6>switch </span><span>(</span><span style=color:#fff>gevent</span><span>) {
+</span><span>    </span><span style=color:#ff79c6>case </span><span style=color:#f1fa8c>"issues"</span><span>:
+</span><span>      </span><span style=color:#ff79c6>return </span><span style=color:#f1fa8c>`
+</span><span style=color:#f1fa8c>❗️❗️❗️❗️❗️❗️
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>Issue ${</span><span style=color:#fff>prstate</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>Issue Title and Number  : ${</span><span style=color:#fff>ititle</span><span style=color:#f1fa8c>} | #${</span><span style=color:#fff>inum</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>Commented or Created By : </span><span style=color:#ff79c6>\`</span><span style=color:#f1fa8c>${</span><span style=color:#fff>iactor</span><span style=color:#f1fa8c>}</span><span style=color:#ff79c6>\`
+</span><span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>Issue Body : *${</span><span style=color:#fff>ibody</span><span style=color:#f1fa8c>}*
+</span><span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>[Link to Issue](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/issues/${</span><span style=color:#fff>inum</span><span style=color:#f1fa8c>})
+</span><span style=color:#f1fa8c>[Link to Repo ](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/)
+</span><span style=color:#f1fa8c>[Build log here](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/commit/${</span><span style=color:#fff>sha</span><span style=color:#f1fa8c>}/checks)`</span><span>;
+</span><span>    </span><span style=color:#ff79c6>case </span><span style=color:#f1fa8c>"pull_request"</span><span>:
+</span><span>      </span><span style=color:#ff79c6>return </span><span style=color:#f1fa8c>`
+</span><span style=color:#f1fa8c>🔃🔀🔃🔀🔃🔀
+</span><span style=color:#f1fa8c>PR ${</span><span style=color:#fff>prstate</span><span style=color:#f1fa8c>} 
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>PR Number:      ${</span><span style=color:#fff>pnum</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>PR Title:       ${</span><span style=color:#fff>ptitle</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>PR Body:        *${</span><span style=color:#fff>pbody</span><span style=color:#f1fa8c>}*
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>PR By:          ${</span><span style=color:#fff>ghactor</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>[Link to Issue](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/pull/${</span><span style=color:#fff>pnum</span><span style=color:#f1fa8c>})
+</span><span style=color:#f1fa8c>[Link to Repo ](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/)
+</span><span style=color:#f1fa8c>[Build log here](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/commit/${</span><span style=color:#fff>sha</span><span style=color:#f1fa8c>}/checks)`</span><span>;
+</span><span>    </span><span style=color:#ff79c6>default</span><span>:
+</span><span>      </span><span style=color:#ff79c6>return </span><span style=color:#f1fa8c>`
+</span><span style=color:#f1fa8c>⬆️⇅⬆️⇅
+</span><span style=color:#f1fa8c>            
+</span><span style=color:#f1fa8c>ID: ${</span><span style=color:#fff>ghwrkflw</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>Action was a *${</span><span style=color:#fff>ipstatus</span><span style=color:#f1fa8c>}!*
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#ff79c6>\`</span><span style=color:#f1fa8c>Repository:  ${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}</span><span style=color:#ff79c6>\` 
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>On:          *${</span><span style=color:#fff>ghevent</span><span style=color:#f1fa8c>}*
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>By:            *${</span><span style=color:#fff>ghactor</span><span style=color:#f1fa8c>}* 
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>Tag:        ${process</span><span style=color:#ff79c6>.</span><span style=color:#f1fa8c>env</span><span style=color:#ff79c6>.</span><span style=color:#fff>GITHUB_REF</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>[Link to Repo ](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/)
+</span><span style=color:#f1fa8c>            `</span><span>;
+</span><span>  }
+</span><span>};
+</span></code></pre><p>In these lines of code, we’re just initializing a switch statement for the responses. We’re also declaring an anonymous function to use the switch responses via a function later. We’re using all the defined variables in the switch. You can check the <a href=https://help.github.com/en/actions/reference/events-that-trigger-workflows>trigger Events</a> to get how the event is triggered and what keyword should be used.<p>Now for the last part of the Js file, we just take the response from the switch and assign it to a constant. Then we use the <code>sendMessage</code> function of the <code>node-telegram-bot-api</code> to send the message to the bot with the chatid and the output as the arguments.<pre class=language-js data-lang=js style=background:#282a36;color:#f8f8f2><code class=language-js data-lang=js><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#fff>output </span><span style=color:#ff79c6>= </span><span style=color:#50fa7b>evresp</span><span>(</span><span style=color:#fff>ghevent</span><span>);
+</span></code></pre><p>bot.sendMessage(chatid,output,{parse_mode : “Markdown”})<h2 id=compiling-and-minifying-the-js-code>Compiling and Minifying the Js code</h2><p>Since we have installed <code>@zeit/ncc</code> and this is used for the making the whole program with all the APIs to a single file and we need to use NCC for that. We just need to run<pre class=language-sh data-lang=sh style=background:#282a36;color:#f8f8f2><code class=language-sh data-lang=sh><span style=color:#50fa7b>yarn</span><span> run ncc build index.js</span><span style=font-style:italic;color:#ffb86c> -C -m -o</span><span> dist
+</span></code></pre><p>or you might wanna add the following to you <code>package.json</code> file, and run <code>npm run test</code> to compile and minify the code.<pre class=language-json data-lang=json style=background:#282a36;color:#f8f8f2><code class=language-json data-lang=json><span style=color:#eee>"</span><span style=color:#f1fa8c>scripts</span><span style=color:#eee>"</span><span>: {
+</span><span>    </span><span style=color:#eee>"</span><span style=color:#f1fa8c>test</span><span style=color:#eee>"</span><span>: </span><span style=color:#eee>"</span><span style=color:#f1fa8c>ncc build index.js -C -m -o dist</span><span style=color:#eee>"
+</span><span>  },
+</span></code></pre><p>This will create a <code>dist</code> folder with and <code>index.js</code> file which contains the compiled code.<h2 id=making-it-a-valid-action>Making it a valid action</h2><p>For making this Js file a valid action, we need to add an <code>action.yml</code> file. The action.yml for this action is like this<pre class=language-yml data-lang=yml style=background:#282a36;color:#f8f8f2><code class=language-yml data-lang=yml><span style=color:#ff79c6>name</span><span>: </span><span style=color:#f1fa8c>"Action Name"
+</span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Action Descreption"
+</span><span style=color:#ff79c6>author</span><span>: </span><span style=color:#f1fa8c>"&LTauthor name>"
+</span><span style=color:#ff79c6>inputs</span><span>:
+</span><span>  </span><span style=color:#ff79c6>chat</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Chat to send: chat id or @channel_name"
+</span><span>    </span><span style=color:#ff79c6>required</span><span>: </span><span style=color:#bd93f9>true
+</span><span>  </span><span style=color:#ff79c6>token</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Telegram Bot token"
+</span><span>    </span><span style=color:#ff79c6>required</span><span>: </span><span style=color:#bd93f9>true
+</span><span>  </span><span style=color:#ff79c6>status</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Job status"
+</span><span>    </span><span style=color:#ff79c6>required</span><span>: </span><span style=color:#bd93f9>true
+</span><span>  </span><span style=color:#ff79c6>iu_title</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Issue Title"
+</span><span>    </span><span style=color:#ff79c6>default</span><span>: </span><span style=color:#f1fa8c>${{ github.event.issue.title }}
+</span><span>  </span><span style=color:#ff79c6>iu_num</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Issue Number"
+</span><span>    </span><span style=color:#ff79c6>default</span><span>: </span><span style=color:#f1fa8c>${{ github.event.issue.number }}
+</span><span>  </span><span style=color:#ff79c6>iu_actor</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Issue Triggerer"
+</span><span>    </span><span style=color:#ff79c6>default</span><span>: </span><span style=color:#f1fa8c>${{ github.event.issue.user.login }}
+</span><span>  </span><span style=color:#ff79c6>iu_com</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Issue Comment"
+</span><span>    </span><span style=color:#ff79c6>default</span><span>: </span><span style=color:#f1fa8c>${{github.event.comment.body}}
+</span><span>  </span><span style=color:#ff79c6>pr_state</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"State of the PR"
+</span><span>    </span><span style=color:#ff79c6>default</span><span>: </span><span style=color:#f1fa8c>${{ github.event.action }}
+</span><span>  </span><span style=color:#ff79c6>pr_num</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"PR Number"
+</span><span>    </span><span style=color:#ff79c6>default</span><span>: </span><span style=color:#f1fa8c>${{ github.event.number }}
+</span><span>  </span><span style=color:#ff79c6>pr_title</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Title of the PR"
+</span><span>    </span><span style=color:#ff79c6>default</span><span>: </span><span style=color:#f1fa8c>${{ github.event.pull_request.title }}
+</span><span>  </span><span style=color:#ff79c6>pr_body</span><span>:
+</span><span>    </span><span style=color:#ff79c6>description</span><span>: </span><span style=color:#f1fa8c>"Body/Contents of the PR"
+</span><span>    </span><span style=color:#ff79c6>default</span><span>: </span><span style=color:#f1fa8c>${{ github.event.pull_request.body }}
+</span><span style=color:#ff79c6>runs</span><span>:
+</span><span>  </span><span style=color:#ff79c6>using</span><span>: </span><span style=color:#f1fa8c>"node12"
+</span><span>  </span><span style=color:#ff79c6>main</span><span>: </span><span style=color:#f1fa8c>"dist/index.js"
+</span><span style=color:#ff79c6>branding</span><span>:
+</span><span>  </span><span style=color:#ff79c6>icon</span><span>: </span><span style=color:#f1fa8c>"repeat"
+</span><span>  </span><span style=color:#ff79c6>color</span><span>: </span><span style=color:#f1fa8c>"green"
+</span></code></pre><p>Here we’re defining the Input variables to be loaded for the action in GitHub’s runtime environemt. All these <code>default</code> data are taken from the response of the webhooks which are send by GitHub when a trigger event is occured. You can find out more in the <a href=https://help.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#github-context>Action Documentation Here</a>.<pre class=language-yml data-lang=yml style=background:#282a36;color:#f8f8f2><code class=language-yml data-lang=yml><span style=color:#ff79c6>runs</span><span>:
+</span><span>  </span><span style=color:#ff79c6>using</span><span>: </span><span style=color:#f1fa8c>"node12"
+</span><span>  </span><span style=color:#ff79c6>main</span><span>: </span><span style=color:#f1fa8c>"dist/index.js"
+</span></code></pre><p>Here we are defining that this is a node action and should run in an environment with node, and the file which should be run, here the <code>index.js</code> file in the <code>dist</code> folder. That should do it. Create a new commit and push it to a repo. <strong>Create a new tag</strong> and this action will appear in the <a href="https://github.com/marketplace?type=actions">marketplace</a>.<h3 id=defining-a-workflow-to-test-your-action>Defining a workflow to test your action</h3><p>GitHub Action workflows are defined using the <code>.yml</code> syntax. Here is an example of a sample workflow for this action<pre class=language-yml data-lang=yml style=background:#282a36;color:#f8f8f2><code class=language-yml data-lang=yml><span style=color:#ff79c6>name</span><span>: </span><span style=color:#f1fa8c>&LTWorkflow Name>
+</span><span>
+</span><span style=color:#bd93f9>on</span><span>:
+</span><span>  </span><span style=color:#ff79c6>push</span><span>:
+</span><span>  </span><span style=color:#ff79c6>pull_request</span><span>:
+</span><span>    </span><span style=color:#ff79c6>types</span><span>: [</span><span style=color:#f1fa8c>opened</span><span>, </span><span style=color:#f1fa8c>closed</span><span>]
+</span><span>  </span><span style=color:#ff79c6>issues</span><span>:
+</span><span>    </span><span style=color:#ff79c6>types</span><span>: [</span><span style=color:#f1fa8c>opened</span><span>, </span><span style=color:#f1fa8c>closed</span><span>, </span><span style=color:#f1fa8c>reopened</span><span>]
+</span><span style=color:#ff79c6>jobs</span><span>:
+</span><span>  </span><span style=color:#ff79c6>build</span><span>:
+</span><span>    </span><span style=color:#ff79c6>runs-on</span><span>: </span><span style=color:#f1fa8c>ubuntu-latest
+</span><span>
+</span><span>    </span><span style=color:#ff79c6>steps</span><span>:
+</span><span>      - </span><span style=color:#ff79c6>name</span><span>: </span><span style=color:#f1fa8c>&LTAnyName>
+</span><span>        </span><span style=color:#ff79c6>uses</span><span>: </span><span style=color:#f1fa8c>&LTusername>/&LTrepo>@master
+</span><span>        </span><span style=color:#ff79c6>if</span><span>: </span><span style=color:#f1fa8c>always()
+</span><span>        </span><span style=color:#ff79c6>with</span><span>:
+</span><span>          </span><span style=color:#ff79c6>chat</span><span>: </span><span style=color:#f1fa8c>${{ secrets.chat }}
+</span><span>          </span><span style=color:#ff79c6>token</span><span>: </span><span style=color:#f1fa8c>${{ secrets.token }}
+</span><span>          </span><span style=color:#ff79c6>status</span><span>: </span><span style=color:#f1fa8c>${{ job.status }}
+</span></code></pre><p>The Complete code for the bot is<pre class=language-js data-lang=js style=background:#282a36;color:#f8f8f2><code class=language-js data-lang=js><span style=color:#6272a4>//Initializing dotenv and the bot
+</span><span style=color:#8be9fd>require</span><span>(</span><span style=color:#f1fa8c>"dotenv"</span><span>)</span><span style=color:#ff79c6>.</span><span style=color:#fff>config</span><span>;
+</span><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#fff>Bot </span><span style=color:#ff79c6>= </span><span style=color:#8be9fd>require</span><span>(</span><span style=color:#f1fa8c>"node-telegram-bot-api"</span><span>);
+</span><span style=color:#6272a4>// aliasing the environment variables
+</span><span style=font-style:italic;color:#8be9fd>const </span><span>{
+</span><span>  INPUT_STATUS: </span><span style=color:#fff>ipstatus</span><span>,
+</span><span>  INPUT_TOKEN: </span><span style=color:#fff>tgtoken</span><span>, </span><span style=color:#6272a4>//Telegram api token
+</span><span>  INPUT_CHAT: </span><span style=color:#fff>chatid</span><span>, </span><span style=color:#6272a4>// Telegram Chat ID
+</span><span>  INPUT_IU_TITLE: </span><span style=color:#fff>ititle</span><span>, </span><span style=color:#6272a4>// Issue title
+</span><span>  INPUT_IU_NUM: </span><span style=color:#fff>inum</span><span>, </span><span style=color:#6272a4>// Issue Number
+</span><span>  INPUT_IU_ACTOR: </span><span style=color:#fff>iactor</span><span>, </span><span style=color:#6272a4>// Issue made by
+</span><span>  INPUT_IU_BODY: </span><span style=color:#fff>ibody</span><span>, </span><span style=color:#6272a4>// Issue Body
+</span><span>  INPUT_PR_NUM: </span><span style=color:#fff>pnum</span><span>, </span><span style=color:#6272a4>// PR Number
+</span><span>  INPUT_PR_STATE: </span><span style=color:#fff>prstate</span><span>, </span><span style=color:#6272a4>// PR Opened, reponed or closed
+</span><span>  INPUT_PR_TITLE: </span><span style=color:#fff>ptitle</span><span>, </span><span style=color:#6272a4>// PR Title
+</span><span>  INPUT_PR_BODY: </span><span style=color:#fff>pbody</span><span>, </span><span style=color:#6272a4>// Body of the PR
+</span><span>  GITHUB_EVENT_NAME: </span><span style=color:#fff>ghevent</span><span>, </span><span style=color:#6272a4>// Name of the trigger event
+</span><span>  GITHUB_REPOSITORY: </span><span style=color:#fff>repo</span><span>, </span><span style=color:#6272a4>// Repository the trigger was made from
+</span><span>  GITHUB_ACTOR: </span><span style=color:#fff>ghactor</span><span>, </span><span style=color:#6272a4>// User who triggered the action
+</span><span>  GITHUB_SHA: </span><span style=color:#fff>sha</span><span>, </span><span style=color:#6272a4>// Commit ID
+</span><span>  GITHUB_WORKFLOW: </span><span style=color:#fff>ghwrkflw</span><span>, </span><span style=color:#6272a4>// Workflow Name
+</span><span>} </span><span style=color:#ff79c6>= </span><span>process</span><span style=color:#ff79c6>.</span><span>env;
+</span><span>
+</span><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#fff>bot </span><span style=color:#ff79c6>= new </span><span>Bot(</span><span style=color:#fff>tgtoken</span><span>);
+</span><span style=color:#6272a4>// Function to return the response for the specific trigger
+</span><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#50fa7b>evresp </span><span style=color:#ff79c6>= </span><span>(</span><span style=font-style:italic;color:#ffb86c>gevent</span><span>) </span><span style=font-style:italic;color:#8be9fd>=> </span><span>{
+</span><span>  </span><span style=color:#ff79c6>switch </span><span>(</span><span style=color:#fff>gevent</span><span>) {
+</span><span>    </span><span style=color:#6272a4>//Switch statement for issues
+</span><span>    </span><span style=color:#ff79c6>case </span><span style=color:#f1fa8c>"issues"</span><span>:
+</span><span>      </span><span style=color:#ff79c6>return </span><span style=color:#f1fa8c>`
+</span><span style=color:#f1fa8c>❗️❗️❗️❗️❗️❗️
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>Issue ${</span><span style=color:#fff>prstate</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>Issue Title and Number  : ${</span><span style=color:#fff>ititle</span><span style=color:#f1fa8c>} | #${</span><span style=color:#fff>inum</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>Commented or Created By : </span><span style=color:#ff79c6>\`</span><span style=color:#f1fa8c>${</span><span style=color:#fff>iactor</span><span style=color:#f1fa8c>}</span><span style=color:#ff79c6>\`
+</span><span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>Issue Body : *${</span><span style=color:#fff>ibody</span><span style=color:#f1fa8c>}*
+</span><span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>[Link to Issue](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/issues/${</span><span style=color:#fff>inum</span><span style=color:#f1fa8c>})
+</span><span style=color:#f1fa8c>[Link to Repo ](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/)
+</span><span style=color:#f1fa8c>[Build log here](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/commit/${</span><span style=color:#fff>sha</span><span style=color:#f1fa8c>}/checks)`</span><span>;
+</span><span>    </span><span style=color:#6272a4>// Switch statement for Pull Requests
+</span><span>    </span><span style=color:#ff79c6>case </span><span style=color:#f1fa8c>"pull_request"</span><span>:
+</span><span>      </span><span style=color:#ff79c6>return </span><span style=color:#f1fa8c>`
+</span><span style=color:#f1fa8c>🔃🔀🔃🔀🔃🔀
+</span><span style=color:#f1fa8c>PR ${</span><span style=color:#fff>prstate</span><span style=color:#f1fa8c>} 
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>PR Number:      ${</span><span style=color:#fff>pnum</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>PR Title:       ${</span><span style=color:#fff>ptitle</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>PR Body:        *${</span><span style=color:#fff>pbody</span><span style=color:#f1fa8c>}*
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>PR By:          ${</span><span style=color:#fff>ghactor</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>[Link to Issue](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/pull/${</span><span style=color:#fff>pnum</span><span style=color:#f1fa8c>})
+</span><span style=color:#f1fa8c>[Link to Repo ](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/)
+</span><span style=color:#f1fa8c>[Build log here](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/commit/${</span><span style=color:#fff>sha</span><span style=color:#f1fa8c>}/checks)`</span><span>;
+</span><span>    </span><span style=color:#ff79c6>default</span><span>:
+</span><span>      </span><span style=color:#6272a4>// switch statement for Pushes
+</span><span>      </span><span style=color:#ff79c6>return </span><span style=color:#f1fa8c>`
+</span><span style=color:#f1fa8c>⬆️⇅⬆️⇅
+</span><span style=color:#f1fa8c>            
+</span><span style=color:#f1fa8c>ID: ${</span><span style=color:#fff>ghwrkflw</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>Action was a *${</span><span style=color:#fff>ipstatus</span><span style=color:#f1fa8c>}!*
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#ff79c6>\`</span><span style=color:#f1fa8c>Repository:  ${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}</span><span style=color:#ff79c6>\` 
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>On:          *${</span><span style=color:#fff>ghevent</span><span style=color:#f1fa8c>}*
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>By:            *${</span><span style=color:#fff>ghactor</span><span style=color:#f1fa8c>}* 
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>Tag:        ${process</span><span style=color:#ff79c6>.</span><span style=color:#f1fa8c>env</span><span style=color:#ff79c6>.</span><span style=color:#fff>GITHUB_REF</span><span style=color:#f1fa8c>}
+</span><span style=color:#f1fa8c>        
+</span><span style=color:#f1fa8c>[Link to Repo ](https://github.com/${</span><span style=color:#fff>repo</span><span style=color:#f1fa8c>}/)
+</span><span style=color:#f1fa8c>            `</span><span>;
+</span><span>  }
+</span><span>};
+</span><span style=color:#6272a4>// assigning the output to a variable
+</span><span style=font-style:italic;color:#8be9fd>const </span><span style=color:#fff>output </span><span style=color:#ff79c6>= </span><span style=color:#50fa7b>evresp</span><span>(</span><span style=color:#fff>ghevent</span><span>);
+</span><span style=color:#6272a4>// sending the message
+</span><span style=color:#fff>bot</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>sendMessage</span><span>(</span><span style=color:#fff>chatid</span><span>, </span><span style=color:#fff>output</span><span>, { parse_mode: </span><span style=color:#f1fa8c>"Markdown" </span><span>});
+</span></code></pre><hr><p>You can try out many different items using actions and this is just a sample action to get you started. Maybe sending Cat GIFs if the build succeded on the pull request or sending a welcome message to a first time contributor. You imagination is the limit😄 and <strong>Never Stop being ⚡️</strong></div></article></div></body><script src=/footnotes.js></script>
