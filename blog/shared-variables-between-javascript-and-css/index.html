@@ -1,0 +1,78 @@
+<!doctype html><html class="scroll-smooth md:border-[10px] md:border-solid min-h-screen md:border-purple" lang=en><head><meta charset=utf-8><link href="/css/style.css?h=012c5f95ea1463230821" rel=stylesheet><meta content="width=device-width,initial-scale=1" name=viewport><title>Shared Variables Between JavaScript and CSS | Diéssica Gurskas</title><body class="text-gray-700 font-body antialiased"><div class="bg-blog px-3 md:px-10 min-h-[calc(100vh-16px)] lg:min-h-[calc(100vh-20px)]"><div class="py-12 mb-4 text-center space-x-8 text-md md:text-lg relative z-20"><a class="no-underline font-extrabold hover:border-green hover:border-b-2" href=/>diessi.ca</a><a class="no-underline hover:border-green hover:border-b-2 border-green border-b-2" href=/blog/>Blog</a><a class="no-underline hover:border-green hover:border-b-2" href=/misc/>Misc</a></div><article class="container mx-auto w-full xl:w-1/2 pb-8"><header class="xl:-mx-56 text-center mb-8 md:mb-12"><div class="uppercase tracking-widest opacity-60 mb-4 text-xs">January 15, 2017</div><h1 class="font-extrabold font-display text-3xl md:text-5xl xl:text-6xl text-slate-900">Shared Variables Between JavaScript and CSS</h1></header><div class="prose prose-sm md:prose 2xl:prose-lg prose-hr:text-red prose-hr:w-48 prose-hr:h-0.5 prose-hr:mx-auto prose-hr:my-4 prose-hr:bg-black prose-hr:opacity-20 prose-hr:border-0 prose-hr:rounded prose-hr:md:my-10 prose-pre:rounded-none prose-blockquote:border-0 prose-blockquote:text-center prose-blockquote:text-xl prose-blockquote:text-current tracking-tight mx-auto prose-headings:text-slate-800 prose-headings:w-max prose-headings:font-display prose-headings:font-extrabold"><p>Because it assures consistency throughout the project and avoids <a href=https://en.m.wikipedia.org/wiki/Magic_number_(programming)>magic numbers</a>, sharing variables between JavaScript and CSS code may help you to keep your project codebase tidy and easier to reason about.<p class=note><p>For this article, when talking about CSS, the word “variable” may mean <a href=https://www.w3.org/TR/css-variables/>custom property</a> or <a href=https://www.w3.org/TR/2016/WD-mediaqueries-4-20160126/#custom-mq>custom media query</a>.<h2 id=getting-started>Getting Started</h2><p>First, create a <strong>object</strong> containing your variables and export it.<p>My JS file containing the object will be called <code>variables.js</code>.<pre class=language-js data-lang=js style=color:#f8f8f2;background-color:#282a36><code class=language-js data-lang=js><span style=color:#ff79c6>export default </span><span>{
+</span><span>  mainColor: </span><span style=color:#f1fa8c>"#000"</span><span>,
+</span><span>  secondaryColor: </span><span style=color:#f1fa8c>"#fff000"</span><span>,
+</span><span>  fullHeight: </span><span style=color:#f1fa8c>"100vh"</span><span>,
+</span><span>};
+</span></code></pre><p>No magic is needed to use those variables in your JS files – just <code>import</code> them when you need it. But in order to communicate those variables to your CSS files and use them with <code>var()</code>, some magic is needed.<p>For this, I will be using <a href=http://cssnext.io/>cssnext</a>, a PostCSS plugin, and injecting that object into our stylesheets as <strong>custom properties</strong>.<p>Webpack example:<pre class=language-js data-lang=js style=color:#f8f8f2;background-color:#282a36><code class=language-js data-lang=js><span style=color:#ff79c6>import </span><span style=color:#fff>cssNext </span><span style=color:#ff79c6>from </span><span style=color:#f1fa8c>"postcss-cssnext"</span><span>;
+</span><span style=color:#ff79c6>import </span><span style=color:#fff>myVars </span><span style=color:#ff79c6>from </span><span style=color:#f1fa8c>"./variables"</span><span>;
+</span><span>
+</span><span style=color:#66d9ef;font-style:italic>module</span><span style=color:#ff79c6>.</span><span style=color:#66d9ef;font-style:italic>exports </span><span style=color:#ff79c6>= </span><span>{
+</span><span>  </span><span style=color:#6272a4>// Entry, loaders, plugins...
+</span><span>
+</span><span>  </span><span style=color:#50fa7b>postcss</span><span>: () </span><span style=color:#8be9fd;font-style:italic>=> </span><span>[
+</span><span>    </span><span style=color:#50fa7b>cssNext</span><span>({
+</span><span>      features: {
+</span><span>        customProperties: { variables: </span><span style=color:#fff>myVars </span><span>},
+</span><span>      },
+</span><span>    }),
+</span><span>  ],
+</span><span>};
+</span></code></pre><p class=note><p>Since I’m just using <a href=https://github.com/MoOx/postcss-cssnext>postcss-cssnext</a> API, it’s also possible to do it with the build tool of your choice. Check <a href=http://cssnext.io/usage/#features>docs on passing options to cssnext features</a>.<h2 id=getting-real-world-with-breakpoints>Getting Real-world with Breakpoints</h2><p>Sharing breakpoints between JavaScript and your stylesheets is a great real-world example.<p>It’s time for <code>variables.js</code> to grow then!<pre class=language-js data-lang=js style=color:#f8f8f2;background-color:#282a36><code class=language-js data-lang=js><span style=color:#ff79c6>export </span><span style=color:#8be9fd;font-style:italic>const </span><span style=color:#fff>properties </span><span style=color:#ff79c6>= </span><span>{
+</span><span>  mainColor: </span><span style=color:#f1fa8c>"#000"</span><span>,
+</span><span>  secondaryColor: </span><span style=color:#f1fa8c>"#fff000"</span><span>,
+</span><span>  fullHeight: </span><span style=color:#f1fa8c>"100vh"</span><span>,
+</span><span>};
+</span><span>
+</span><span style=color:#ff79c6>export </span><span style=color:#8be9fd;font-style:italic>const </span><span style=color:#fff>mediaQueries </span><span style=color:#ff79c6>= </span><span>{
+</span><span>  secondaryColor: </span><span style=color:#f1fa8c>"#fff000"</span><span>,
+</span><span>  desktop: </span><span style=color:#f1fa8c>"(min-width: 1024px)"</span><span>,
+</span><span>  tablet: </span><span style=color:#f1fa8c>"(min-width: 768px)"</span><span>,
+</span><span>  mobile: </span><span style=color:#f1fa8c>"(min-width: 320px)"</span><span>,
+</span><span>};
+</span></code></pre><p>Because it’s not possible to create a media query containing a custom property, we need to inject <code>mediaQueries</code> as <strong>custom media queries</strong>.<p>Let’s update the previous Webpack example in order to let cssnext to know about both custom media queries and properties.<pre class=language-js data-lang=js style=color:#f8f8f2;background-color:#282a36><code class=language-js data-lang=js><span style=color:#ff79c6>import </span><span style=color:#fff>cssNext </span><span style=color:#ff79c6>from </span><span style=color:#f1fa8c>"postcss-cssnext"</span><span>;
+</span><span style=color:#ff79c6>import </span><span>{ </span><span style=color:#fff>properties</span><span>, </span><span style=color:#fff>mediaQueries </span><span>} </span><span style=color:#ff79c6>from </span><span style=color:#f1fa8c>"./variables"</span><span>;
+</span><span>
+</span><span style=color:#66d9ef;font-style:italic>module</span><span style=color:#ff79c6>.</span><span style=color:#66d9ef;font-style:italic>exports </span><span style=color:#ff79c6>= </span><span>{
+</span><span>  </span><span style=color:#6272a4>// Entry, loaders, plugins...
+</span><span>
+</span><span>  </span><span style=color:#50fa7b>postcss</span><span>: () </span><span style=color:#8be9fd;font-style:italic>=> </span><span>[
+</span><span>    </span><span style=color:#50fa7b>cssNext</span><span>({
+</span><span>      features: {
+</span><span>        customProperties: { variables: </span><span style=color:#fff>properties </span><span>},
+</span><span>        customMedia: { extensions: </span><span style=color:#fff>mediaQueries </span><span>},
+</span><span>      },
+</span><span>    }),
+</span><span>  ],
+</span><span>};
+</span></code></pre><p>Done! Some usage examples for CSS, JS and even React are provided below.<h3 id=usage>Usage</h3><h4 id=css-example>CSS Example</h4><p>Using custom properties and custom media queries according to settings from <code>variables.js</code> file.<pre class=language-css data-lang=css style=color:#f8f8f2;background-color:#282a36><code class=language-css data-lang=css><span style=color:#50fa7b>.banner </span><span>{
+</span><span>  </span><span style=color:#66d9ef;font-style:italic>background</span><span>: </span><span style=color:#6be5fd>red</span><span>;
+</span><span>  </span><span style=color:#66d9ef;font-style:italic>height</span><span>: </span><span style=color:#8be9fd>var</span><span>(</span><span style=color:#66d9ef;font-style:italic>--fullHeight</span><span>); </span><span style=color:#6272a4>/* Custom property */
+</span><span>
+</span><span>  @media (</span><span style=color:#66d9ef;font-style:italic>--desktop</span><span>) {
+</span><span>    </span><span style=color:#6272a4>/* Custom media query */
+</span><span>    </span><span style=color:#66d9ef;font-style:italic>width</span><span>: </span><span style=color:#bd93f9>50</span><span style=color:#ff79c6>%</span><span>;
+</span><span>  }
+</span><span>}
+</span></code></pre><h4 id=javascript-example>JavaScript example</h4><p class=note><p>Example below uses <a href=http://wicky.nillia.ms/enquire.js/>enquire.js</a> library.<pre class=language-js data-lang=js style=color:#f8f8f2;background-color:#282a36><code class=language-js data-lang=js><span style=color:#ff79c6>import </span><span style=color:#fff>enquire </span><span style=color:#ff79c6>from </span><span style=color:#f1fa8c>"enquire.js"</span><span>;
+</span><span style=color:#ff79c6>import </span><span>{ </span><span style=color:#fff>customMedia </span><span>} </span><span style=color:#ff79c6>from </span><span style=color:#f1fa8c>"./variables"</span><span>;
+</span><span>
+</span><span style=color:#fff>enquire
+</span><span>  </span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>register</span><span>(</span><span style=color:#fff>customMedia</span><span style=color:#ff79c6>.</span><span style=color:#fff>tablet</span><span>, () </span><span style=color:#8be9fd;font-style:italic>=> </span><span>{
+</span><span>    </span><span style=color:#66d9ef;font-style:italic>console</span><span style=color:#ff79c6>.</span><span style=color:#8be9fd>log</span><span>(</span><span style=color:#f1fa8c>"Matched tablet resolution"</span><span>);
+</span><span>  })
+</span><span>  </span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>register</span><span>(</span><span style=color:#fff>customMedia</span><span style=color:#ff79c6>.</span><span style=color:#fff>mobile</span><span>, () </span><span style=color:#8be9fd;font-style:italic>=> </span><span>{
+</span><span>    </span><span style=color:#66d9ef;font-style:italic>console</span><span style=color:#ff79c6>.</span><span style=color:#8be9fd>log</span><span>(</span><span style=color:#f1fa8c>"Matched mobile resolution"</span><span>);
+</span><span>  });
+</span></code></pre><h4 id=react-example>React example</h4><p>Rendering a component only on desktop resolutions.<p class=note><p>Example below uses <a href=https://github.com/contra/react-responsive>react-responsive</a> library.<pre class=language-tsx data-lang=tsx style=color:#f8f8f2;background-color:#282a36><code class=language-tsx data-lang=tsx><span style=color:#ff79c6>import </span><span style=color:#fff>MediaQuery </span><span style=color:#ff79c6>from </span><span style=color:#f1fa8c>"react-responsive"</span><span>;
+</span><span style=color:#ff79c6>import </span><span>{ </span><span style=color:#fff>customMedia </span><span>} </span><span style=color:#ff79c6>from </span><span style=color:#f1fa8c>"./variables"</span><span>;
+</span><span>
+</span><span style=color:#8be9fd;font-style:italic>function </span><span style=color:#50fa7b>DesktopOnlyComponent</span><span>() {
+</span><span>  </span><span style=color:#6272a4>/* (min-width: 1024px), according to variables.js */
+</span><span>
+</span><span>  </span><span style=color:#ff79c6>return </span><span>(
+</span><span>    <</span><span style=color:#66d9ef;font-style:italic>MediaQuery </span><span style=color:#50fa7b>query</span><span style=color:#ff79c6>={</span><span style=color:#fff>customMedia</span><span style=color:#ff79c6>.</span><span style=color:#fff>desktop</span><span style=color:#ff79c6>}</span><span>>
+</span><span>      <</span><span style=color:#ff79c6>p</span><span>>My desktop-only component!&LT/</span><span style=color:#ff79c6>p</span><span>>
+</span><span>    &LT/</span><span style=color:#66d9ef;font-style:italic>MediaQuery</span><span>>
+</span><span>  );
+</span><span>}
+</span></code></pre><h2 id=final-words>Final Words</h2><p>A non-consistent front-end codebase is just messy.<p>I really use this technique on everyday work, and it’s a cheap way to significantly improve the quality of the front-end codebase.<p>So, don’t underestimate it! Besides breakpoints, there are infinite possibilities for this, such as project colors, layout dimensions and other shared stuff that can easily get out of hand while working on a large project.</div></article></div></body><script src=/footnotes.js></script>
